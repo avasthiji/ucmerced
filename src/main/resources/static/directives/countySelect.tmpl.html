@@ -1,0 +1,47 @@
+<div class="formSection">
+    <label class="form-label">*Counties</label>
+    <div class="form-control" style="display: flex" ng-click="showCountyOptions(); $event.stopPropagation()"
+        id="regionSelect">
+        <span class="input no-selection" ng-if="selectedCounties == 0">{{selectedCounties}} Selected
+            <i>(required)</i></span><span class="arrowSelect" ng-if="selectedCounties == 0"></span>
+        <span class="input standard-input-txt" ng-if="selectedCounties > 0">{{selectedCounties}} Selected</span><span
+            class="arrowSelect" ng-if="selectedCounties > 0"></span>
+    </div>
+    <div id="countiesDropdown" class="searchDropdown" ng-show="showCounties">
+        <div class="hdr">
+            <div style="display: flex">
+                <span class="dialogTxt">Counties</span>
+
+                <div class="selectAllTxt" style="position:absolute;right: 10px;">
+                    <span class="selectAll" ng-click="selectAllCounties()">Select all</span> &nbsp; | &nbsp;
+                    <span class="deselectAll" ng-click="deselectAllCounties()">clear All</span>
+                </div>
+
+            </div>
+            <!-- <span class="closeBtn" ng-click="hideCountyOptions()">[close]</span>
+            <span class="selectAll" ng-click="selectAllCounties()">[Select all]</span> &nbsp; | &nbsp;
+            <span class="deselectAll" ng-click="deselectAllCounties()">[Deselect All]</span> -->
+            <div>
+                <p>Select additional counties.</p>
+                <div class="chunk countyChunk" ng-repeat="countyChunk in countiesList">
+                    <label ng-repeat="county in countyChunk">
+                        <input type="checkbox" class="check" ng-model="county.selected"
+                            value="{{county.countyName}}" />&nbsp;
+                        <span class="standard-txt"> {{county.countyName}}</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="btns">
+            <button class="btn btn-primary formSearch" ng-click="hideCountyOptions()">OK</button>
+            <button class="btn btn-primary cancelBtn" ng-click="cancelCountyOptions()"
+                style="margin-right:10px;">Cancel</button>
+
+        </div>
+
+
+        <!-- <button class="btn btn-primary" ng-click="hideCountyOptions()">OK</button>
+        <button class="btn btn-primary" ng-click="cancelCountyOptions()"style="margin-right:10px;">Cancel</button> -->
+
+    </div>
+</div>

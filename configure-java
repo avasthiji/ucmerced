@@ -1,0 +1,4 @@
+# This script stores and provides the desired version of Java as defined by
+# sdkman. Change this if you install a newer version that is to be used for
+# this application.
+SDK_JAVA_VERSION=11.0.14.10.1-amzn

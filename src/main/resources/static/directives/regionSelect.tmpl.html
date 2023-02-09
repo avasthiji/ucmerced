@@ -1,0 +1,40 @@
+<div class="formSection">
+    <label class="form-label"> Regions</label>
+    <div class="form-control" style="display: flex" ng-click="showRegionOptions(); $event.stopPropagation()" id="regionSelect">
+    <span class="input no-selection" ng-if="selectedRegions == 0">{{selectedRegions}} Selected </span><span class="arrowSelect" ng-if="selectedRegions == 0"></span>
+    <span class="input standard-input-txt" ng-if="selectedRegions > 0">{{selectedRegions}} Selected</span><span class="arrowSelect" ng-if="selectedRegions > 0"></span>
+    </div>
+    <div id="regionsDropdown" class="searchDropdown" ng-show="showRegions">
+        <div class="hdr">
+            <div style="display: flex">
+                <span class="dialogTxt">Regions</span>
+                
+                <div  class="selectAllTxt" style="position:absolute;right: 10px;">
+                    <span class="selectAll" ng-click="selectAllRegions()">Select all</span> &nbsp; | &nbsp;
+                    <span class="deselectAll" ng-click="deselectAllRegions()">clear All</span>
+                </div>
+                
+            </div>
+            <div>
+            <p>Associated counties will automatically be selected.</p>
+        <label ng-repeat="region in regionsList track by region.id">
+            <input type="checkbox" class="check" ng-model="region.selected" value="{{region.regionName}}"/>&nbsp;
+           <span class="standard-txt"> {{region.regionName}}</span>
+        </label>
+        <br />
+        <div class="btns">
+            <button class="btn btn-primary formSearch" ng-click="hideRegionOptions()">OK</button>
+            <button class="btn btn-primary cancelBtn" ng-click="cancelRegionOptions()"style="margin-right:10px;">Cancel</button>
+
+        </div>
+    </div>
+            <!-- <span class="closeBtn" ng-click="hideRegionOptions()">[close]</span> -->
+            <!-- <span class="selectAll" ng-click="selectAllRegions()">[Select all]</span> &nbsp; | &nbsp;
+            <span class="deselectAll" ng-click="deselectAllRegions()">[Deselect All]</span> -->
+        </div>
+        
+        <!-- <button class="btn btn-primary" ng-click="hideRegionOptions()">OK</button>
+        <button class="btn btn-primary" ng-click="cancelRegionOptions()"style="margin-right:10px;">Cancel</button> -->
+        
+    </div>
+</div>

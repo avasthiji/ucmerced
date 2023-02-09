@@ -1,0 +1,174 @@
+<!doctype html>
+<html class="no-js" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}"
+    data-ng-app="healthApp" ng-strict-di>
+
+<head>
+    <title>Economic Burden of Chronic Disease in California</title>
+    <script src="/js/app.js" type="text/javascript"></script>
+    <script src="/js/Search.js" type="text/javascript"></script>
+    <script src="/js/Totals.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/css/app.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+
+<body>
+    <article layout:fragment="content" class="bodyLeftMargin" data-close-all-search-dialogs>
+        <div class="infoBox">
+            <i class="fa fa-futboll-0"></i>
+            <p class="infoTxt">You have arrived at a website that allows you to estimate the cost of chronic diseases in
+                each county or region in California! The project that led to the initial generation of this data was
+                funded by the Chronic Disease Control Branch at the California Department of Public Health using
+                estimates from the Center for Disease Control and Prevention’s (CDC) Chronic Disease Cost Calculator,
+                the California Health Interview Survey (CHIS), and a number of other sources (see the FAQ page). The
+                site was developed by UC Merced with funding from the California Healthcare Foundation.</p>
+        </div>
+        <div class="appContent">
+           
+            <div class="appTitle">Economic Burden of Chronic Disease in Californias</div>
+            
+            <hr class="underLine appTitle">
+            
+            <div ng-controller="SearchController">
+                <div style="width:70%; margin:0 auto">
+                <div class="searchClass">Search</div>
+            <div class="lableContent">
+                <div class="mandatoryLabel">* = Mandatory Required Fields</div>
+                <div class="clearLable" onclick="doReset()"><img src="/images/reload.png" width="auto"
+                        height="20px" /> Clear selection</div>
+            </div>
+            <script>
+                /* When the user clicks on the button, 
+                toggle between hiding and showing the dropdown content */
+                function doReset() {
+                    location.reload()
+                }
+               
+            </script>
+                <ul ng-show="searchErrors.length>0" id="searchErrors">
+                    <li class='alert alert-danger' ng-repeat="error in searchErrors">{{error}}</li>
+                </ul>
+                <form name="search" id="search">
+                    <section>
+                        <div disease-select></div>
+                        <div region-select></div>
+                        <div county-select class="lastItem"></div>
+                    </section>
+                    <section class="right">
+                        <div ethnicity-select></div>
+                        <div age-group-select></div>
+                        <div sex-options></div>
+
+
+                        <div class="btnContainer">
+                            <button class="btn btn-primary formSearch" ng-click="doSearch()">Search</button>
+                        </div>
+
+                    </section>
+                </form>
+            </div>
+                <p ng-show="searching"
+                    style="font-weight:bold; clear:both; padding-top:25px; font-size:14pt; text-align:center; line-height:20pt;">
+                    Searching&nbsp;<img src="/images/loading.gif" alt="UC Merced" /><br />
+                </p>
+                <div ng-show="searched" style="clear:both;margin-top:10px; width: 100%;">
+                    <div class="searchClass">Search Results</div>
+                    <!-- <h1>Search Results <a href="" ng-click="downloadCSV('total')"><img src="/images/csv_file.png"
+                                alt="Download Data as CSV" /></a></h1> -->
+                    <tabset>
+                        <tab heading="Totals">
+                            <section>
+                                <a href="" class="searchDetails" ng-click="showSearchDetails('totals')"><i class="fa fa-info-circle" style="font-size:20px; color: #002856;"></i>  Search Details</a>
+                                    <div class="searchClass">Totals for Diseases</div>
+                                <!-- <h1>Totals for Diseases</h1> -->
+                                <div data-search-results-aggregator search-data="searchedData"
+                                    disease="searchedData.diseases" ng-show='showSearchDetails.totals'></div>
+                                <div data-search-results-totals-table data-title="Totals"
+                                    some-total="searchResults.Totals.totals[0]"></div>
+                            </section>
+                            <hr />
+                            <section ng-show="searchResults.Totals.regions.length>0">
+                                <!-- <h4>Region Totals</h4> -->
+                                <div class="searchClass">Region Totals</div>
+                                <p class="stndrd-txt">Totals for all diseases selected for each region selected.</p>
+                                <div ng-repeat="regions in searchResults.Totals.regions" style="margin:20px 0; padding:8px; background-color:#EFEFEF;">
+                                    <div ng-repeat="(regionName,regionData) in regions">
+                                        <div data-search-results-totals-table data-title="{{regionName}}"
+                                            some-total="regionData[0]"></div>
+                                    </div>
+                                </div>
+                            </section>
+                            <hr />
+                            <section>
+                                <!-- <h4>Counties</h4> -->
+                                <div class="searchClass">Counties</div>
+                                <p class="stndrd-txt">Totals and complete breakdown for all diseases selected for each county selected</p>
+                                <div ng-repeat="countyList in searchResults.Totals.counties"
+                                    style="margin:20px 0; padding:8px; background-color:#EFEFEF;">
+                                    <div ng-repeat='(countyName,countyData) in countyList track by $index'>
+                                        <div data-search-results-details-table data-title='{{countyName}} County'
+                                            data-details="countyData.data"></div>
+                                        <div data-search-results-totals-table
+                                            data-title="Totals for {{countyName}} County"
+                                            some-total="countyData.totals[0]"></div>
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="downloadBtn">
+                                <button ng-click="downloadCSV('total')">DOWNLOAD CSV</button>
+                            </div>
+                        </tab>
+                        <tab ng-repeat="disease in searchResults.diseases" heading="{{disease.name}}">
+                            <section>
+                                <a href="" class="searchDetails" ng-click="showSearchDetails(disease.name)"><i class="fa fa-info-circle" style="font-size:20px;color:#002856"></i>  Search
+                                    Details</a>
+                                <!-- <h1>{{disease.name}} Totals</h1> -->
+                                <div class="searchClass">{{disease.name}} Totals</div>
+                                <div data-search-results-aggregator search-data="searchedData"
+                                    ng-show='showSearchDetails[disease.name]'></div>
+                                <div data-search-results-totals-table data-title="Totals" some-total="disease.totals[0]">
+                                </div>
+                            </section>
+                            <hr />
+                            <section>
+                                <div class="searchClass">Region Totals</div>
+                                <!-- <h4>Region Totals</h4> -->
+                                <p>Totals for {{disease.name}} for each region selected.</p>
+                                <div ng-repeat="regions in disease.regions">
+                                    <div ng-repeat="(regionName,regionData) in regions" style="margin:20px 0; padding:8px; background-color:#EFEFEF;">
+                                        <div data-search-results-totals-table data-title="{{regionName}}"
+                                            some-total="regionData[0]"></div>
+                                    </div>
+                                </div>
+                            </section>
+                            <hr />
+                            <section>
+                                <!-- <h4>Counties</h4> -->
+                                <div class="searchClass">Counties</div>
+                                <p class="stndrd-txt">Totals and complete breakdown for {{disease.name}} for each county selected</p>
+                                <div ng-repeat="countyList in disease.counties" style="margin:20px 0; padding:8px; background-color:#EFEFEF;">
+                                    <div ng-repeat='(countyName,countyData) in countyList'>
+                                        <div data-search-results-details-table data-title='{{countyName}} County'
+                                            data-details="countyData.data"></div>
+                                        <div data-search-results-totals-table
+                                            data-title="Totals for {{countyName}} County"
+                                            some-total="countyData.totals[0]"></div>
+                                    </div>
+                                </div>
+                               
+                            </section>
+                            <div class="downloadBtn">
+                                <button ng-click="downloadCSV('total')">DOWNLOAD CSV</button>
+                            </div>
+                        </tab>
+                    </tabset>
+                </div>
+            </div>
+        </div>
+
+
+    </article>
+</body>
+
+</html>

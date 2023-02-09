@@ -1,0 +1,12 @@
+This application uses an embedded database. The database isn't included in the
+repository. It should be generated before running or packaging the application,
+by running it under the "dataload" profile:
+
+    mvn spring-boot:run -Pdataload
+    (wait about 10 seconds for it to load the data)
+    (terminate the application with ctrl-C)
+
+The database should now be present in src/main/resources/db. The application
+will use it in both local mode ("mvn spring-boot:run") and when it's run from
+the package.
+

@@ -1,0 +1,42 @@
+<div class="formSection">
+    <label class="form-label">*Diseases</label>
+    <div class="form-control" style="display: flex" ng-click="showDiseaseOptions(); $event.stopPropagation()" id="diseaseSelect">
+    <span class="input no-selection" ng-if="selectedDiseases == 0">{{selectedDiseases}} Selected <i>(required)</i></span><span class="arrowSelect" ng-if="selectedDiseases == 0"></span>
+    <span class="input standard-input-txt" ng-if="selectedDiseases > 0">{{selectedDiseases}} Selected</span><span class="arrowSelect" ng-if="selectedDiseases > 0"></span>
+    
+</div>
+    <div id="diseasesDropdown" class="searchDropdown" ng-show="showDiseases">
+        <div class="hdr">
+            <!-- <span class="closeBtn" ng-click="hideDiseaseOptions()">[close]</span> -->
+            <div style="display: flex">
+                <span class="dialogTxt">DISEASES</span>
+                
+                <div  class="selectAllTxt" style="position:absolute;right: 10px;">
+                    <span class="selectAll" ng-click="selectAllDiseases()">Select all</span> &nbsp; | &nbsp;
+                    <span class="deselectAll" ng-click="deselectAllDiseases()">clear All</span>
+                </div>
+                
+            </div>
+            
+            <div id="diseaseChunkContainer">
+                <div class="chunk diseaseChunk" ng-repeat="diseaseChunk in diseasesList">
+                    <label ng-repeat="disease in diseaseChunk">
+                        <input type="checkbox" class="check" ng-model="disease.selected" value="{{disease.diseaseName}}"/>&nbsp;
+                        <span class="standard-txt">{{disease.diseaseName}}</span>
+                    </label>
+                </div>
+               
+            </div>
+            
+            
+        </div>
+        <div class="btns">
+            <button class="btn btn-primary formSearch" ng-click="hideDiseaseOptions()">OK</button>
+            <button class="btn btn-primary cancelBtn" ng-click="cancelDiseaseOptions()"style="margin-right:10px;">Cancel</button>
+
+        </div>
+        
+        
+        
+    </div>
+</div>

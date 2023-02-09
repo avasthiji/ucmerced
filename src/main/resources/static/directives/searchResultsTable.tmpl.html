@@ -1,0 +1,26 @@
+<section>
+    <p class="title">{{title}}</p>
+    <p ng-show="description">{{description}}</p>
+    <table class="stripeTable" width="100%">
+        <tr>
+            <th width="50%" style="background-color: #EFEFEF;" ng-if="title === 'Totals'">Cases</th>
+            <th width="50%" style="background-color: #EFEFEF;" ng-if="title === 'Totals'">Cost</th>
+            <th width="50%" ng-if="title != 'Totals'">Cases</th>
+            <th width="50%" ng-if="title != 'Totals'">Cost</th>
+            <!--
+            <th width="20%">Population</th>
+            <th width="20%">Prevalence Rate</th>
+            <th width="20%">&nbsp;</th>-->
+        </tr>
+        <tr>
+            <td ng-if="title === 'Totals'" style="background-color: white;">{{totals.cases | number}}</td>
+            <td ng-if="title === 'Totals'" style="background-color: white;">{{totals.costs | currency}}</td>
+            <td ng-if="title != 'Totals'">{{totals.cases | number}}</td>
+            <td ng-if="title != 'Totals'">{{totals.costs | currency}}</td>
+            <!--
+            <td>{{totals.population | number}}</td>
+            <td>{{totals.prevalenceRate | number}}</td>
+            <td>&nbsp;</td>-->
+        </tr>
+    </table>
+</section>

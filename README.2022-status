@@ -1,0 +1,24 @@
+As of April 2022, this application has recently been implemented in Spring Boot.
+It was previously written in Grails. It uses AngularJS for the front end. The
+HTML pages have been adapted to Thymeleaf for the Spring Boot implementation,
+but the rest of the front end, including the AngularJS, is unchanged. Therefore,
+the data returned by the new application is formatted exactly as it was in the
+old application, so that the same AngularJS front end will be able to use it.
+
+The consequences of retaining the old AngularJS, and formatting the data to its
+particular needs, can be seen in SearchService, where Jaxon ObjectNodes are
+used to create the JSON document correctly.
+
+TECH STACK CHANGES
+==================
+
+Component           Old (Grails)            New (Spring Boot)
+-------------       -----------------       -----------------------------
+Front end HTML      GSP templates           Thymeleaf
+Front end styling   2015-esque Bootstrap    (unchanged)
+Front end App       AngularJS               (unchanged)
+Database            SQL Server              Embedded HSQLDB
+Back end            Grails                  Spring Boot
+JVM                 OpenJDK 1.8             Amazon Corretto 11
+Host                RHEL 6.x on VMWare      AWS Elastic Beanstalk
+

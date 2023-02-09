@@ -1,0 +1,43 @@
+<div class="formSection">
+    <label class="form-label">*Age Group</label>
+    <div class="form-control" style="display: flex" ng-click="showAgeGroupOptions(); $event.stopPropagation()" id="ageGroupSelect">
+    <span class="input no-selection" ng-if="selectedAgeGroups == 0">{{selectedAgeGroups}} Selected <i>(required)</i></span><span class="arrowSelect" ng-if="selectedAgeGroups == 0"></span>
+    <span class="input standard-input-txt" ng-if="selectedAgeGroups > 0">{{selectedAgeGroups}} Selected</span><span class="arrowSelect" ng-if="selectedAgeGroups > 0"></span>
+    
+    </div>
+    <div id="ageGroupDropdown" class="searchDropdown" ng-show="showAgeGroups">
+        <div class="hdr">
+            <div style="display: flex;flex-direction: row;">
+                <span class="dialogTxt">Age Group</span>
+                
+                <div  class="selectAllTxt" style="position:absolute;right: 10px;">
+                    <span class="selectAll" ng-click="selectAllAgeGroups()">Select all</span> &nbsp; | &nbsp;
+                    <span class="deselectAll" ng-click="deselectAllAgeGroups()">clear All</span>
+                </div>
+                
+            </div>
+            <!-- <span class="closeBtn" ng-click="hideAgeGroupOptions()">[close]</span>
+            <span class="selectAll" ng-click="selectAllAgeGroups()">[Select all]</span> &nbsp; | &nbsp;
+            <span class="deselectAll" ng-click="deselectAllAgeGroups()">[Deselect All]</span> -->
+            <div id="ageGroupChunkContainer">
+                <div class="chunk ageGroupChunk" ng-repeat="ageGroupChunk in ageGroupList">
+                    <label ng-repeat="ageGroup in ageGroupChunk">
+                        <input type="checkbox" ng-model="ageGroup.selected" value="{{ageGroup.groupName}}"/>&nbsp;
+                        <span class="standard-txt">{{ageGroup.groupName}}</span>
+                    </label>
+                </div>
+               
+            </div>
+        </div>
+        <div class="btns">
+            <button class="btn btn-primary formSearch" ng-click="hideAgeGroupOptions()">OK</button>
+            <button class="btn btn-primary cancelBtn" ng-click="cancelAgeGroupOptions()"style="margin-right:10px;">Cancel</button>
+
+        </div>
+        
+        
+        <!-- <button class="btn btn-primary" ng-click="hideAgeGroupOptions()">OK</button>
+        <button class="btn btn-primary" ng-click="cancelAgeGroupOptions()"style="margin-right:10px;">Cancel</button> -->
+        
+    </div>
+</div>

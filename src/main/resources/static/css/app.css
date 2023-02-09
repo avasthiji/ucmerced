@@ -1,0 +1,123 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+@import url(https://fonts.googleapis.com/css?family=Bebas+Neue:400,700);
+
+.bodyLeftMargin {
+    margin: 0 auto;
+    width: 80%;
+    position: relative;
+    padding: 0 !important;
+}
+
+.infoBox {
+    margin-top: 10px;
+    background: #FFBF3C40 0% 0% no-repeat padding-box !important;
+    border: 1px solid #FFBF3C !important;
+    opacity: 1 !important;
+    padding: 25px !important;
+    margin-bottom: 20px;
+}
+
+.infoTxt {
+
+    text-align: left;
+    font: normal normal normal 14px/20px Open Sans;
+    letter-spacing: 0px;
+    opacity: 1;
+}
+
+.appTitle {
+    text-align: left;
+    font: normal normal 32px/40px Bebas Neue;
+    letter-spacing: 0px;
+    color: #002856;
+    opacity: 1;
+    text-transform: uppercase;
+    width: 70%;
+    margin: 0 auto;
+    
+}
+
+.appContent {
+    max-width: 100%;
+    margin: 0 auto;
+}
+.formClass{
+    max-width: 70% !important;
+    margin: 0 auto;
+}
+
+.underLine {
+    border: 1px solid #FFBF3C;
+    opacity: 1;
+}
+
+.searchClass {
+    text-align: left;
+    font: normal normal 42px/60px Bebas Neue;
+    letter-spacing: 0px;
+    color: #002856;
+    opacity: 1;
+    text-transform: uppercase;
+}
+
+.lableContent {
+    display: flex;
+    justify-content: space-between;
+}
+
+.selectDropDown {
+    background: #EFEFEF 0% 0% no-repeat padding-box;
+    border-radius: 6px;
+    opacity: 1;
+}
+
+.nav-tabs>li.active>a {
+    background-color: #002856 !important;
+    color: white !important;
+    text-align: left;
+    font: normal normal bold 16px/24px Open Sans;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    opacity: 1;
+    text-decoration: none;
+    border-radius: 10px 10px 0px 0px !important;
+    margin-bottom: 5px;
+}
+
+.nav-tabs>li>a {
+    background-color: #E5E5E5 !important;
+    color: #5B5B5B !important;
+    text-align: left;
+    font: normal normal bold 16px/24px Open Sans;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    opacity: 1;
+    text-decoration: none;
+    border-radius: 10px 10px 0px 0px !important;
+    margin-bottom: 5px;
+}
+.stndrd-txt{
+    letter-spacing: var(--unnamed-character-spacing-0);
+text-align: left;
+font: normal normal normal 16px/22px Open Sans;
+letter-spacing: 0px;
+color: #292929;
+opacity: 1;
+}
+.downloadBtn{
+    float: right !important;
+    margin-bottom: 20px !important;
+}
+.downloadBtn button{
+    background: #5B5B5B 0% 0% no-repeat padding-box;
+    border-radius: 10px;
+    opacity: 1;
+    font: normal normal bold 16px/22px Open Sans;
+letter-spacing: 0px;
+color: #FFFFFF;
+text-transform: uppercase;
+opacity: 1;
+border: none;
+padding: 10px;
+}

@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title layout:title-pattern="$CONTENT_TITLE">Economic Burden of Chronic Disease in California</title>
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- The order of these CSS files is important, because later files override some settings from earlier ones. -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/mobile.css" />
+    <link rel="stylesheet" href="/css/layout.css" />
+    <script src="/js/jquery-1.11.2.min.js" type="text/javascript"></script>
+    <script src="/js/angular.js" type="text/javascript"></script>
+    <script src="/js/ui-bootstrap-custom-0.13.0.min.js" type="text/javascript"></script>
+    <script src="/js/ui-bootstrap-custom-tpls-0.13.0.min.js" type="text/javascript"></script>
+</head>
+
+<body class="body">
+    <div id="container">
+        
+        <div class="hideMobile" id="mobileSideBar" >
+            <div class="mobileSideBlur"></div>
+            <div class="mobileNavBar" id="mobileSideBar2">
+            <div class="mobileNavBarLogo" style="width: 206px; height: 58px;"><a href="http://www.ucmerced.edu/" target="_blank" >
+                <img src="/images/left-logo.png" alt="UC Merced" width="206px" height="58px" />
+            </a></div>
+            <div class="actions">
+                <div class="headerActions"><a href="/"
+                        th:class="${currentPage == 'index' ? 'active' : ''}">Home</a>
+                </div>
+                <div class="headerActions"><a  href="/start"
+                        th:class="${currentPage == 'start' ? 'active' : ''}">Before you Begin</a></div>
+                <!-- <div class="headerActions" onclick="myFunction()"><a class="link" href="/app" th:class="${currentPage == 'app' ? 'active' : ''}">
+                    Data Portal</a></div> -->
+                    <div class="headerActions"><a style="display: flex;align-items: center;">Data Portal <div class="flexDir arrows">
+                            <p class="arrow1"></p>
+                            <p class="arrow2"></p>
+                        </div></a></div>
+                        <div class="subActions">
+                            <a  href="/app" th:class="${currentPage == 'app' ? 'active' : ''}">Chronic Disease</a>
+                            <a  href="/app" th:class="${currentPage == 'app' ? 'active' : ''}">Infectious Disease</a>
+                            <a  href="/app" th:class="${currentPage == 'app' ? 'active' : ''}">Climate Change</a>
+                            <a  href="/app" th:class="${currentPage == 'app' ? 'active' : ''}">Health Care Access</a>
+                        </div>
+                <div class="headerActions"><a class="link" href="/faq"
+                        th:class="${currentPage == 'faq' ? 'active' : ''}">FAQ</a></div>
+                                </div>
+                            </div>
+        </div>
+        <header class="headerMobile">
+            <div class="headerMobile_left">
+                <img src="/images/hrsri-right-logo.png" alt="">
+            </div>
+            <div class="headerMobile_right" onclick="showMobileNavBar()">
+                <div class="navAction1"></div>
+                <div class="navAction2"></div>
+                <div class="navAction3"></div>
+            </div>
+            
+        </header>
+        <header class="headerDesktop">
+            <div class="headerContentBox">
+                <a class="titleImage" href="http://www.ucmerced.edu/" target="_blank" id="homeLink">
+                    <img src="/images/left-logo.png" alt="UC Merced" width="206px" height="58px" />
+                </a>
+                <div class="actions">
+                    <div class="headerActions"><a href="/"
+                            th:class="${currentPage == 'index' ? 'active' : ''}">Home</a>
+                    </div>
+                    <div class="headerActions"><a  href="/start"
+                            th:class="${currentPage == 'start' ? 'active' : ''}">Before you Begin</a></div>
+                    <!-- <div class="headerActions" onclick="myFunction()"><a class="link" href="/app" th:class="${currentPage == 'app' ? 'active' : ''}">
+                        Data Portal</a></div> -->
+                    <div class="dropdown headerActions" style="cursor: pointer" onclick="myFunction()">
+                        <a  class="headerActions dropbtn flexDir">
+                            Data Portal <div class="flexDir">
+                                <p class="arrow1"></p>
+                                <p class="arrow2"></p>
+                            </div>
+                        </a>
+                        <div id="myDropdown" class="dropdown-content">
+                            <a  href="/app" th:class="${currentPage == 'app' ? 'active' : ''}">Chronic Disease</a>
+                            <a  href="/app" th:class="${currentPage == 'app' ? 'active' : ''}">Infectious Disease</a>
+                            <a  href="/app" th:class="${currentPage == 'app' ? 'active' : ''}">Climate Change</a>
+                            <a  href="/app" th:class="${currentPage == 'app' ? 'active' : ''}">Health Care Access</a>
+                        </div>
+                    </div>
+                    <div class="headerActions"><a class="link" href="/faq"
+                            th:class="${currentPage == 'faq' ? 'active' : ''}">FAQ</a></div>
+                    <div class=" rightImg"><img  class="imgLogo" src="/images/hrsri-right-logo.png" alt="UC Merced Health Sciences Reseach Institute" 
+                           /></div>
+
+
+                </div>
+
+            </div>
+            <!-- <img src="/images/hsri.png" alt="UC Merced Health Sciences Reseach Institute" id='hsri_logo' /> -->
+            <!-- <nav>
+            <ul>
+                <li><a href="/" th:class="${currentPage == 'index' ? 'active' : ''}">Home</a></li>
+                <li><a href="/start" th:class="${currentPage == 'start' ? 'active' : ''}">Before you Begin</a></li>
+                <li><a href="/app" th:class="${currentPage == 'app' ? 'active' : ''}">Search CBCD Health Data</a></li>
+                <li><a href="/faq" th:class="${currentPage == 'faq' ? 'active' : ''}">FAQ</a></li>
+            </ul>
+        </nav> -->
+        </header>
+      
+        <script>
+            /* When the user clicks on the button, 
+            toggle between hiding and showing the dropdown content */
+            function myFunction() {
+                console.log("12")
+                document.getElementById("myDropdown").classList.toggle("showList");
+            }
+            function showMobileNavBar(){
+                document.getElementById("mobileSideBar").classList.remove("hideMobile");
+                document.getElementById("mobileSideBar").classList.add("showMobile");
+                document.getElementById("mobileSideBar2").classList.remove("mobileNavBar");
+                document.getElementById("mobileSideBar2").classList.add("showNavBar");
+
+            }
+
+            // Close the dropdown if the user clicks outside of it
+            window.onclick = function (event) {
+                if (!event.target.matches('.dropbtn') && !event.target.matches('.arrows')) {
+                    var dropdowns = document.getElementsByClassName("dropdown-content");
+                    var i;
+                    for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('showList')) {
+                            openDropdown.classList.remove('showList');
+                        }
+                    }
+                }
+                if(!event.target.matches('.headerMobile_right') && !event.target.matches('.navAction1') && !event.target.matches('.navAction2') && !event.target.matches('.navAction3')){
+                    document.getElementById("mobileSideBar").classList.remove("showMobile");
+                document.getElementById("mobileSideBar").classList.add("hideMobile");
+                document.getElementById("mobileSideBar2").classList.remove("showNavBar");
+                document.getElementById("mobileSideBar2").classList.add("mobileNavBar");
+                }
+                
+                
+                
+            }
+        </script>
+
+        <div id="main" role="main">
+
+            <div layout:fragment="content" class="bodyLeftMargin"></div>
+
+        </div>
+        <footer>
+            <div class="footerBorder"></div>
+            <div class="footer bodyLeftMargin ">
+                <div class="left">
+                    <span>Resources</span>
+                    <p><a href="http://www.ucmerced.edu/site-list" class="link">Site List</a></p>
+                    <p><a href="http://directory.ucmerced.edu" target="_blank" class="link">Directory</a></p>
+                    <p><a href="http://www.ucmerced.edu/directions-map" class="link">Directions &amp; Map</a></p>
+                    <p><a href="http://www.ucmerced.edu/about-uc-merced" class="link">About UC Merced</a></p>
+                    <p><a href="mailto:pbrown3@ucmerced.edu?subject=Chronic Health Feedback" class="link">Site
+                            Contact</a></p>
+                </div>
+                <div class="right">
+                    <!-- <img src="/images/ftrLogo.gif" alt="UC Merced"/>
+            <br />
+            The first new American research university of the 21<sup>st</sup> century, with a mission of research, teaching, and service -->
+                    <p><strong>University of California, Merced </strong><br>5200 North Lake Rd,<br> Merced, CA
+                        95344<br> Telephone:(209) 228-4400</p>
+
+                    <p><strong>Health version <span th:text="${appVersion}">1.1</span> |
+                            &copy; <span th:text="${copyrightYear}">2005</span> UC Regents |
+                            <a href="http://www.ucmerced.edu/privacy-statement" target="_blank">Privacy/Legal
+                                Notice</a></strong></p>
+                </div>
+                <!-- <div class="ftr">
+            <p class="pLeft"><strong>University of California</strong>, Merced 5200 Lake Rd, Merced, CA 95344 T:(209) 228-4400</p>
+            
+        </div> -->
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

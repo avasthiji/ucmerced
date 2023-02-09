@@ -1,0 +1,44 @@
+<div class="formSection">
+    <label class="form-label">*Ethnicity</label>
+    <div class="form-control" style="display: flex" ng-click="showEthnicityOptions(); $event.stopPropagation()" id="ethnicitySelect">
+    
+    <span class="input no-selection" ng-if="selectedEthnicities == 0">{{selectedEthnicities}} Selected <i>(required)</i></span><span class="arrowSelect" ng-if="selectedEthnicities == 0"></span>
+    <span class="input standard-input-txt" ng-if="selectedEthnicities > 0">{{selectedEthnicities}} Selected</span><span class="arrowSelect" ng-if="selectedEthnicities > 0"></span>
+    </div>
+    <div id="ethnicitiesDropdown" class="searchDropdown" ng-show="showEthnicities">
+        <div class="hdr">
+            <div style="display: flex">
+                <span class="dialogTxt">Ethnicity</span>
+                
+                <div  class="selectAllTxt" style="position:absolute;right: 10px;">
+                    <span class="selectAll" ng-click="selectAllEthnicities()">Select all</span> &nbsp; | &nbsp;
+                    <span class="deselectAll" ng-click="deselectAllEthnicities()">clear All</span>
+                </div>
+                
+            </div>
+            <!-- <span class="closeBtn" ng-click="hideEthnicityOptions()">[close]</span>
+            <span class="selectAll" ng-click="selectAllEthnicities()">[Select all]</span> &nbsp; | &nbsp;
+            <span class="deselectAll" ng-click="deselectAllEthnicities()">[Deselect All]</span> -->
+            <div id="ethnicityChunkContainer">
+                <div class="chunk ethnicityChunk" ng-repeat="ethnicityChunk in ethnicitiesList">
+                    <label ng-repeat="ethnicity in ethnicityChunk">
+                        <input type="checkbox" ng-model="ethnicity.selected" value="{{ethnicity.ethnicityName}}"/>&nbsp;
+                         <span class="standard-txt"> {{ethnicity.ethnicityName}}</span>
+                    </label>
+                </div>
+                
+            </div>
+        </div>
+        <div class="btns">
+            <button class="btn btn-primary formSearch" ng-click="hideEthnicityOptions()">OK</button>
+            <button class="btn btn-primary cancelBtn" ng-click="cancelEthnicityOptions()"style="margin-right:10px;">Cancel</button>
+
+        </div>
+        
+        
+        
+        <!-- <button class="btn btn-primary" ng-click="hideEthnicityOptions()">OK</button>
+        <button class="btn btn-primary" ng-click="cancelEthnicityOptions()"style="margin-right:10px;">Cancel</button> -->
+        
+    </div>
+</div>

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Source this script to set up the development environment.
+# It depends on SDKMAN, and installing the desired JVM with sdkman.
+
+# Set up Java
+# ===========
+# We're going to clear out any other Java stuff that might be set up in the
+# environment, by removing "jdk" and "java" stuff from the PATH, and
+# clearing JAVA_OPTS.
+
+# Get the sdkman Java version:
+source configure-java
+
+# Remove other java from PATH:
+PATH=`perl -e '@path=(); for $p (split /:/, $ENV{PATH}) { push @path, $p unless $p =~ /(?:jdk|java)/ } print join(":", @path), "\n"'`
+
+# Clear any unwanted values from JAVA_OPTS
+unset JAVA_OPTS
+export JAVA_OPTS
+
+# Ensure that sdkman is initialized
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
+
+# Use the correct Java version
+sdk use java $SDK_JAVA_VERSION

@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto11
+  build:
+    commands:
+      - mvn package
+  post_build:
+    commands:
+      - mv target/chealth-*.jar .
+cache:
+  paths:
+    - '/root/.m2/**/*'
+artifacts:
+  files:
+    - chealth-*.jar
+    - .ebextensions/**/*

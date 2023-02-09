@@ -1,0 +1,172 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title>Economic Burden of Chronic Disease in California</title>
+    <link rel="stylesheet" href="/css/index.css" />
+</head>
+<body>
+<article layout:fragment="content" class="bodyLeftMargin contentBox">
+    <div class="leftSide">
+    <div class="hometitle">Overview</div>
+    <p class="overviewTxt">You have arrived at a website that allows you to estimate the cost of chronic diseases in each <a href="http://www.counties.org/sites/main/files/file-attachments/california_county_map_0.pdf" target="_blank">county</a> or <a href="/faq#regions">region</a> in California! The project that led to the initial generation of this data was funded by the <a href="https://www.cdph.ca.gov/programs/cdcb/Pages/default.aspx" target="_blank">Chronic Disease Control Branch at the California Department of Public Health</a> using estimates from the Center for Disease Control and Prevention’s (CDC) <a href="http://www.cdc.gov/dhdsp/programs/spha/cost_calculator.htm" target="_blank">Chronic Disease Cost Calculator</a>, the <a href="http://healthpolicy.ucla.edu/chis/Pages/default.aspx" target="_blank">California Health Interview Survey (CHIS)</a>, and a number of other sources (<a href="/faq">see the FAQ page</a>). The site was developed by <a href="http://www.ucmerced.edu" target="_blank">UC Merced</a> with funding from the <a href="http://www.chcf.org/" target="_blank">California Healthcare Foundation</a>.</p>
+    <!-- <p class="overviewTxt">The website allows you to access our estimates of the <a href="/faq#cost">cost</a> of six chronic diseases by ethnicity, age, gender, county and region. The cost estimates are available by:</p> -->
+        <div class="cardContainer" style="display:flex">
+            <div class="leftCard">
+                <span class="cardTitle">Chronic Disease</span><br>
+                <span class="cardTxt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque libero leo, luctus ac fringilla non, porttitor sed ligula.</span><br>
+                
+                <button class="portalBtn"><a  href="/app" th:class="${currentPage == 'app' ? 'active' : ''}"><span class="openPortal">Open Portal</span></a></button>
+            </div>
+            <div class="rightCard">
+                <span class="cardTitle">Infection Disease</span><br>
+                <span class="cardTxt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque libero leo, luctus ac fringilla non, porttitor sed ligula.</span><br>
+                <button class="portalBtn"><a  href="/app" th:class="${currentPage == 'app' ? 'active' : ''}"><span class="openPortal">Open Portal</span></a></button>
+            </div>
+        </div>
+        <br>
+        <div class="cardContainer" style="display:flex">
+            <div class="leftCard">
+                <span class="cardTitle">Climate Change</span><br>
+                <span class="cardTxt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque libero leo, luctus ac fringilla non, porttitor sed ligula.</span><br>
+                <button class="portalBtn"><a  href="/app" th:class="${currentPage == 'app' ? 'active' : ''}"><span class="openPortal">Open Portal</span></a></button>
+            </div>
+            <div class="rightCard">
+                <span class="cardTitle">Health Care Access</span><br>
+                <span class="cardTxt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque libero leo, luctus ac fringilla non, porttitor sed ligula.</span><br>
+                <button class="portalBtn"><a  href="/app" th:class="${currentPage == 'app' ? 'active' : ''}"><span class="openPortal">Open Portal</span></a></button>
+            </div>
+        </div>
+
+        
+    </div>
+    <aside id="rightSide" class="bg-warning">
+        <div class="rightSideBottom">
+            <span class="aboutUsTitle">About Us</span>
+            <p class="aboutUsTxt">The website and data were developed by Paul Brown (Professor of Health Economics and Public Health), Mariaelena Gonzalez (Assistant Professor of Public Health), Ritem Sandhu (Graduate Student in Public Health), Pam Sheng (Research Associate in HSRI), and UC Merced Information Technology.<br> <a href="/about">Click here to learn more</a>.</p>
+            <p><a href="mailto:pbrown3@ucmerced.edu?subject=Chronic Health Feedback">Feedback?Email us</a></p>
+           <section>
+            <div><strong class="links">Important Links</strong></div><br>
+           
+           <div><a  href="/start" th:class="${currentPage == 'start' ? 'active' : ''}" style="text-decoration: none; cursor: pointer;"><span class="linksTxt">Ready to Get Started?</span></a></div>
+           
+            <div><a  href="https://cbcd-test.ucmerced.edu/" th:class="${currentPage == 'app' ? 'active' : ''}" style="text-decoration: none;cursor: pointer;"><span class="linksTxt">Summary Report from CDPH</span></a></div>
+           
+            <div><a  href="/faq" th:class="${currentPage == 'faq' ? 'active' : ''}" style="text-decoration: none;cursor: pointer;"><span class="linksTxt">FAQs About Estimates</span></a></div>
+            
+            <div><a  href="/app" th:class="${currentPage == 'app' ? 'active' : ''}" style="text-decoration: none;cursor: pointer;"><span class="linksTxt">View Raw Data</span></a></div>
+           </section>
+           
+            <!-- <ul class="sideNav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/start">Before you Begin</a></li>
+                <li><a href="/app">Search CBCD Health Data</a></li>
+                <li><a href="/faq">FAQ</a></li>
+            </ul> -->
+        </div>
+    </aside>
+    <!-- <table class="homepageTable">
+        <tr>
+            <th>Chronic conditions</th>
+            <th>Ethnicities</th>
+            <th>Gender</th>
+            <th>Age groups</th>
+        </tr>
+        <tr>
+            <td>Arthritis</td>
+            <td>African American</td>
+            <td>Male</td>
+            <td>0 to 17</td>
+        </tr>
+        <tr>
+            <td>Asthma</td>
+            <td>Asian</td>
+            <td>Female</td>
+            <td>18 to 44</td>
+        <tr>
+            <td>Cancer</td>
+            <td>Hispanic/Latino</td>
+            <td></td>
+            <td>45 to 64</td>
+        </tr>
+        <tr>
+            <td>Cardiovascular</td>
+            <td>Non-Hispanic White</td>
+            <td></td>
+            <td>64 to 79</td>
+        </tr>
+        <tr>
+            <td>Depression</td>
+            <td></td>
+            <td></td>
+            <td>80 or older</td>
+        </tr>
+        <tr>
+            <td>Diabetes</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>All conditions combined</td>
+            <td>All ethnicities combined</td>
+            <td>Both genders combined</td>
+            <td>All age groups combined</td>
+        </tr>
+    </table>
+    <ul class="homepageUl" style="display:none;">
+        <li><span class="ulHeading">Chronic diseases</span>
+            <ul>
+                <li>Arthritis</li>
+                <li>Asthma</li>
+                <li>Cancer</li>
+                <li>Cardiovascular disease (CVD), including:
+                    <ul>
+                        <li>Congestive heart failure (CHF)</li>
+                        <li>Coronary heart disease (CHD)</li>
+                        <li>Hypertension</li>
+                        <li>Stroke</li>
+                        <li>Other heart diseases</li>
+                    </ul>
+                </li>
+                <li>Depression</li>
+                <li>Diabetes</li>
+                <li>Or all the chronic diseases combined (total)</li>
+            </ul>
+        </li>
+        <li><span class="ulHeading">Ethnicities</span>
+            <ul>
+            <li>African American</li>
+            <li>Asian</li>
+            <li>Hispanic/Latino</li>
+            <li>Non-Hispanic White</li>
+            <li>Or all the ethnicities combined (total)</li>
+            </ul>
+        </li>
+        <li><span class="ulHeading">Gender</span>
+            <ul>
+            <li>Male</li>
+            <li>Female</li>
+            <li>Or both genders combined (total)</li>
+            </ul>
+        </li>
+        <li><span class="ulHeading">Age groups</span>
+            <ul>
+                <li>0 to 17 year olds</li>
+                <li>18 to 44 year olds</li>
+                <li>45 to 64 year olds</li>
+                <li>64 to 79 year olds </li>
+                <li>80 or older </li>
+                <li>Or all age groups combined (total)</li>
+            </ul>
+        </li>
+    </ul>
+    <ul class="homepageLinks">
+        <li><a href="/start" class="faqTitle">Ready to get started?</a></li>
+        <li><a href="/faq" class="faqTitle">FAQs about how the estimates were developed?</a></li>
+        <li><a href="https://www.cdph.ca.gov/programs/cdcb/Documents/CDPHEconomicBurdenCD2015California.pdf" target="_blank"  class="faqTitle">Want to view the summary report from the Chronic Disease Control Branch at the California Department of Public Health?</a></li>
+        <li><a href="" target="_blank" class="faqTitle">Want to view the article in the Journal of Public Health Management and Practice?</a></li>
+        <li><a href="/faq#rawData" class="faqTitle">Want to see the raw data?</a></li>
+    </ul> -->
+</article>
+</body>
+</html>

@@ -1,0 +1,31 @@
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,400italic,700,700italic);
+@import url(https://fonts.googleapis.com/css?family=Bebas+Neue:400,700);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+.startTitle{
+    text-align: left;
+    font: normal normal 54px/66px Bebas Neue;
+    letter-spacing: 0px;
+    color: #002856;
+    opacity: 1;
+    text-transform: uppercase;
+    margin-top: 20px;
+}
+.bodyLeftMargin{
+    margin: 0 auto;
+    width: 80%;
+    padding: 0 !important;
+}
+.homepageUl li{
+    font-size:12pt;
+    color: black !important;
+    font: normal normal normal 18px/25px Open Sans;
+    font-size:12pt;
+}
+    .ulHeading{
+        font-weight:500;
+        
+        color: black !important;
+        font: normal normal normal 18px/25px Open Sans;
+        font-size:12pt;
+    }

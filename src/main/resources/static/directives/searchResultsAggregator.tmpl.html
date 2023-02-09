@@ -1,0 +1,23 @@
+<div class="searchedFor bg-warning">
+                                <table class="unitsSelected">
+                                    <tr>
+                                        <td align="right">Units Selected</td>
+                                    </tr>
+                                    <tr ng-show="disease">
+                                        <td align="right">Disease:&nbsp;</td>
+                                        <td align="left"><span ng-repeat="singleDisease in disease track by $index">{{singleDisease.diseaseName}} {{$last ? '' : ($index==disease.length-2) ? ' and ' : ', '}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">Region:&nbsp;</td>
+                                        <td align="left"><span ng-repeat="region in searchData.regions">{{region.regionName}} {{$last ? '' : ($index==searchData.regions.length-2) ? ' and ' : ', '}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">County:&nbsp;</td>
+                                        <td align="left"><span ng-repeat="county in searchData.counties">{{county.countyName}} {{$last ? '' : ($index==searchData.counties.length-2) ? ' and ' : ', '}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">Demographics:&nbsp;</td>
+                                        <td align="left"><span ng-repeat="demo in searchData.demographics">{{demo}} {{$last ? '' : ($index==searchData.demographics.length-2) ? ' and ' : ', '}}</span></td>
+                                    </tr>
+                                </table>                    
+                            </div>

@@ -1,0 +1,157 @@
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,400italic,700,700italic);
+@import url(https://fonts.googleapis.com/css?family=Bebas+Neue:400,700);
+@import url(https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap);
+
+.bodyLeftMargin {
+    margin: 0 auto;
+    width: 80%;
+    padding: 0 !important;
+}
+
+.hometitle {
+    text-align: left;
+    font: normal normal 54px/66px Bebas Neue;
+    letter-spacing: 0px;
+    color: #002856;
+    opacity: 1;
+    text-transform: uppercase;
+}
+
+
+.leftSide {
+    margin-top: 20px;
+    width: 66%;
+    
+}
+.contentBox{
+    display: flex;
+justify-content: space-between;
+}
+
+aside {
+    top: 10px;
+    right: 0px;
+    width: 30%;
+    height: auto !important;
+    overflow: hidden;
+    line-height: 14pt;
+    background: #FFBF3C40 0% 0% no-repeat padding-box;
+    border: 1px solid #FFBF3C;
+    opacity: 1;
+    padding: 20px;
+    position: inherit !important;
+margin-top: 10px;
+}
+
+.overviewTxt {
+    text-align: left;
+    font: normal normal normal 18px/25px Open Sans;
+    letter-spacing: 0px;
+    color: black !important;
+    opacity: 1;
+    text-decoration: none !important;
+    font-size:12pt !important;
+}
+
+.leftCard {
+    width: 50%;
+    height: 236px !important;
+    background: #EFEFEF 0% 0% no-repeat padding-box;
+    border-radius: 10px;
+    opacity: 1;
+    padding: 25px;
+    position: relative;
+}
+
+.rightCard {
+    width: 50%;
+    height: 236px !important;
+    background: #EFEFEF 0% 0% no-repeat padding-box;
+    border-radius: 10px;
+    opacity: 1;
+    margin-left: 10px;
+    padding: 25px;
+    position: relative;
+}
+
+.cardTitle {
+    font-weight: 800;
+    font-family: 'Open Sans', sans-serif;
+    color: #005487;
+    font-size: 12pt;
+}
+
+.cardTxt {
+     text-align: left;
+    font: normal normal normal 18px/25px Open Sans;
+    letter-spacing: 0px;
+    color: black !important;
+    opacity: 1;
+    text-decoration: none !important;
+    font-size:10pt !important;
+}
+
+.portalBtn {
+    width: 164px;
+    height: 48px;
+    background-color: #FFBF3C;
+    border-radius: 6px;
+    font-family: 'Open Sans', sans-serif;
+    position: absolute;
+    right: 10px;
+    bottom: 20px;
+    font-weight: 700;
+border-color: transparent;
+}
+.portalBtn a{
+    text-decoration: none;
+}
+
+.aboutUsTitle {
+    text-align: left;
+    font: normal normal bold 16px/19px Open Sans;
+    letter-spacing: 0px;
+    color: #000000;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.aboutUsTxt {
+    text-align: left;
+    font: normal normal normal 13px/18px Open Sans;
+    letter-spacing: 0px;
+    color: #000000;
+}
+section{
+    margin-top: 30px !important;
+}
+
+section div {
+    text-align: left;
+    font: normal normal normal 16px/22px Open Sans;
+    letter-spacing: 0px;
+    color: #002856;
+    opacity: 1;
+    margin-bottom: 10px !important;
+}
+.links{
+margin-top: 10px;
+text-align: center;
+font: normal normal bold 16px/22px Open Sans;
+letter-spacing: 0px;
+color: #002856;
+text-transform: uppercase;
+opacity: 1;
+margin-bottom: 10px !important;
+}
+.linksTxt{
+    text-decoration: none !important;
+margin-top: 10px;
+text-align: center;
+font: normal normal normal 14px/20px Open Sans;
+letter-spacing: 0px;
+color: #002856;
+text-transform: uppercase;
+opacity: 1;
+margin-bottom: 10px !important;
+}
