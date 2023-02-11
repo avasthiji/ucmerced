@@ -1,4 +1,6 @@
- 
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,400italic,700,700italic);
+@import url(https://fonts.googleapis.com/css?family=Bebas+Neue:400,700);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
 /* Desktops and laptops ----------- */
 @media only screen 
 and (max-width : 1150px) {
@@ -56,6 +58,13 @@ and (max-width:786px){
         position:relative;
         margin:20px 0;
     }
+    /* .expand-collapse{
+        float: right;
+        margin-right: 5px;
+        margin-left: -5px;
+        font-size: 20px;
+        font-weight: 900;
+    } */
 }
 
 @media only screen 
@@ -93,6 +102,13 @@ and (max-width : 886px) {
         top:20px;
         right:8px;
     }
+    /* .expand-collapse{
+        float: right;
+        margin-right: 5px;
+        margin-left: -5px;
+        font-size: 20px;
+        font-weight: 900;
+    } */
 
 }
 /* Large screens ----------- */
@@ -359,11 +375,19 @@ height: fit-content !important;
     margin: 0px !important;
  }
  .mandatoryLabel{
-    font-size: 8px !important;
+    font-size: 9px !important;
  }
  .clearLable{
-    font-size: 8px !important;
+    font-size: 9px !important;
+    text-align: right !important;
  }
+ /* .expand-collapse{
+    float: right;
+    margin-right: 5px;
+    margin-left: -5px;
+    font-size: 20px;
+    font-weight: 900;
+} */
  }
  
 /* Smartphones (portrait) ----------- */
@@ -510,8 +534,6 @@ and (max-width : 768px) {
     }
 
 
-    
-        /* AMIT CHANGES */
         .headerDesktop {
             display: none !important;
         }
@@ -637,6 +659,31 @@ and (max-width : 768px) {
         }
         .footer{
             display: flex;
+        }
+        .description-title{
+            font-size: 14px !important;
+            height: auto !important;
+            padding-top: auto !important;
+            padding-bottom: 5px !important;
+        }
+        .expand-collapse{
+            float: right;
+            font-size: 20px;
+            font-weight: 900;
+        }
+        #search {
+            width: 100%;
+            margin-left: 0 !important;
+        }
+        .dialogTxt {
+            text-align: left;
+            font: normal normal bold 22px/28px Bebas Neue !important;
+            letter-spacing: 0px;
+            color: #002856;
+            text-transform: uppercase;
+            opacity: 1;
+            text-decoration: none !important;
+            cursor: pointer
         }
 }
 @media only screen 
@@ -911,4 +958,11 @@ and (min-width : 768px) and (max-width :1100px) {
             clear:both;
             margin-bottom:40px;
         }
+        /* .expand-collapse{
+            float: right;
+            margin-right: 5px;
+            margin-left: -5px;
+            font-size: 20px;
+            font-weight: 900;
+        } */
 }
