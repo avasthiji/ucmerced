@@ -25,7 +25,7 @@ import java.util.Map;
 @Service
 @CommonsLog
 public class DataLoader {
-    @Value("${loadData:false}")
+    @Value("${loadData:true}")
     private boolean loadData;
 
     @Autowired
@@ -48,6 +48,9 @@ public class DataLoader {
 
     @Autowired
     private TotalsRepository totalsRepository;
+    
+    @Autowired
+    private HealthTotalRepository healthTotalRepository;
 
     @PostConstruct
     private void init() {
@@ -177,26 +180,54 @@ public class DataLoader {
         log.info("Inserting totals...");
         Path totalsPath = dataPath.resolve("data.csv");
         int numTotals = 0;
+		/*
+		 * for (CSVRecord csvRecord : CSVFormat.DEFAULT.parse( new
+		 * FileReader(totalsPath.toString()))) { if (csvRecord.size() == 10) { Totals
+		 * totals = new Totals(); totals.setDisease(diseases.get(csvRecord.get(0)));
+		 * totals.setRegion(regions.get(csvRecord.get(1)));
+		 * totals.setCounty(counties.get(csvRecord.get(2)));
+		 * totals.setEthnicity(ethnicities.get(csvRecord.get(3)));
+		 * totals.setSex(csvRecord.get(4));
+		 * totals.setAgeGroup(ageGroups.get(csvRecord.get(5)));
+		 * totals.setCases(Double.valueOf(csvRecord.get(6)));
+		 * totals.setCosts(Double.valueOf(csvRecord.get(7)));
+		 * totals.setPopulation(Long.valueOf(csvRecord.get(8)));
+		 * totals.setPrevalenceRate(Float.valueOf(csvRecord.get(9)));
+		 * totalsRepository.save(totals); numTotals++; } else if (csvRecord.size() != 0)
+		 * { log.error("Bad line in data.csv? had " + csvRecord.size() + " fields"); } }
+		 */
+        log.info(" - " + numTotals + " totals were inserted");
+        
+        log.info("Inserting Health Data ROI...");
+        Path HealthDataPath = dataPath.resolve("Data_ToolROI-1.csv");
+        int data = 0;
         for (CSVRecord csvRecord : CSVFormat.DEFAULT.parse(
-                new FileReader(totalsPath.toString()))) {
-            if (csvRecord.size() == 10) {
-                Totals totals = new Totals();
-                totals.setDisease(diseases.get(csvRecord.get(0)));
-                totals.setRegion(regions.get(csvRecord.get(1)));
-                totals.setCounty(counties.get(csvRecord.get(2)));
-                totals.setEthnicity(ethnicities.get(csvRecord.get(3)));
-                totals.setSex(csvRecord.get(4));
-                totals.setAgeGroup(ageGroups.get(csvRecord.get(5)));
-                totals.setCases(Double.valueOf(csvRecord.get(6)));
-                totals.setCosts(Double.valueOf(csvRecord.get(7)));
-                totals.setPopulation(Long.valueOf(csvRecord.get(8)));
-                totals.setPrevalenceRate(Float.valueOf(csvRecord.get(9)));
-                totalsRepository.save(totals);
-                numTotals++;
+                new FileReader(HealthDataPath.toString()))) {
+        	if (csvRecord.size() == 17) {
+        		HealthTotalData healthTotalData = new HealthTotalData();
+        		healthTotalData.setDisease(csvRecord.get(0));
+        		healthTotalData.setRegion(csvRecord.get(1));
+        		healthTotalData.setCounty(csvRecord.get(2));
+        		healthTotalData.setEthnicity(csvRecord.get(3));
+        		healthTotalData.setSex(csvRecord.get(4));
+        		healthTotalData.setAge(Integer.parseInt(csvRecord.get(5)));
+        		healthTotalData.setCases(Double.valueOf(csvRecord.get(6)));
+        		healthTotalData.setCosts(Double.valueOf(csvRecord.get(7)));
+        		healthTotalData.setPopulation(Float.valueOf(csvRecord.get(8)));
+        		healthTotalData.setPrevalenceRate(Float.valueOf(csvRecord.get(9)));
+        		healthTotalData.setAverageUtility(Float.valueOf(csvRecord.get(10)));
+        		healthTotalData.setAverageHealthyUtility(Double.valueOf(csvRecord.get(11)));
+        		healthTotalData.setCostPerCase(Double.valueOf(csvRecord.get(12)));
+        		healthTotalData.setTotalHCCost(Double.valueOf(csvRecord.get(13)));
+        		healthTotalData.setUtilityLoss(Double.valueOf(csvRecord.get(14)));
+        		healthTotalData.setTotalCostOfUtility(Double.valueOf(csvRecord.get(15)));
+        		healthTotalData.setTotalTotalCost(Double.valueOf(csvRecord.get(16)));
+                healthTotalRepository.save(healthTotalData);
+                data++;
             } else if (csvRecord.size() != 0) {
                 log.error("Bad line in data.csv? had " + csvRecord.size() + " fields");
             }
         }
-        log.info(" - " + numTotals + " totals were inserted");
+        log.info(" - " + data + " HealthData were inserted");
     }
 }

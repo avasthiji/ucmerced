@@ -1,7 +1,9 @@
 package edu.ucmerced.chealth.search;
 
 import edu.ucmerced.chealth.datasource.health.domain.Totals;
+import lombok.Setter;
 
+@Setter
 public class TotalsDTO {
     private final Totals totals;
     public TotalsDTO (Totals totals) {
