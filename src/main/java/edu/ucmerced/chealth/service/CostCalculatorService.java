@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import edu.ucmerced.chealth.datasource.health.domain.HealthTotalData;
+import edu.ucmerced.chealth.datasource.health.repository.AgeGroupRepository;
+import edu.ucmerced.chealth.datasource.health.repository.CountyRepository;
+import edu.ucmerced.chealth.datasource.health.repository.DiseaseRepository;
+import edu.ucmerced.chealth.datasource.health.repository.EthnicityRepository;
 import edu.ucmerced.chealth.datasource.health.repository.HealthTotalRepository;
+import edu.ucmerced.chealth.datasource.health.repository.RegionRepository;
 import edu.ucmerced.chealth.search.HealthDataDTO;
 
 /*
@@ -28,6 +34,18 @@ public class CostCalculatorService {
 
 	@Autowired
 	private HealthTotalRepository healthTotalRepository;
+
+	@Autowired
+	private DiseaseRepository diseaseRepository;
+
+	@Autowired
+	private CountyRepository countyRepository;
+
+	@Autowired
+	private EthnicityRepository ethnicityRepository;
+
+	@Autowired
+	private RegionRepository regionRepository;
 
 	/**
 	 * Given some health data, put it into a "search result" structure for use by
@@ -49,16 +67,27 @@ public class CostCalculatorService {
 	 *     ]
 	 * }
 	 */
+	public ObjectNode getHealthData(String county, String disease, String ethnicity, String ageGroups, String sexes, String region) {
 
-	public ObjectNode getHealthData(String county , String ethnicity, String disease, String sex, String region) {
-
-		List<String> countyList = new ArrayList<String>(Arrays.asList(county.split(",")));
-		List<String> ethnicityList = new ArrayList<String>(Arrays.asList(ethnicity.split(","))); 
-		List<String> diseaseList = new ArrayList<String>(Arrays.asList(county.split(","))); 
-		List<String> genderList = new ArrayList<String>(Arrays.asList(sex.split(","))); 
-		List<String> regionList = new ArrayList<String>(Arrays.asList(region.split(","))); 
-
-		List<HealthTotalData> healthDataList =  healthTotalRepository.retrieveHealthData(0, 5, countyList, ethnicityList, diseaseList, genderList, regionList);
+		List<String> countyList =countyRepository.findByIdIn(Stream.of(county.split(","))
+				.map(Long::parseLong)
+				.collect(Collectors.toList()));
+		List<String> ethnicityList =ethnicityRepository.findByIdIn(Stream.of(ethnicity.split(","))
+				.map(Long::parseLong)
+				.collect(Collectors.toList()));
+		List<String> diseaseList =diseaseRepository.findByIdIn(Stream.of(disease.split(","))
+				.map(Long::parseLong)
+				.collect(Collectors.toList()));
+		List<String> genderList = new
+				 ArrayList<String>(Arrays.asList(sexes.split(",")));
+		List<String> regionList =regionRepository.findByIdIn(Stream.of(region.split(","))
+				.map(Long::parseLong)
+				.collect(Collectors.toList()));
+		List<Integer> ageList = Stream.of(ageGroups.split("-"))
+				.map(Integer::parseInt)
+				.collect(Collectors.toList());
+		
+		List<HealthTotalData> healthDataList =  healthTotalRepository.retrieveHealthData(ageList.get(0), ageList.get(1), countyList, ethnicityList, diseaseList, genderList, regionList);
 
 		return createSearchResult(healthDataList, regionList);
 

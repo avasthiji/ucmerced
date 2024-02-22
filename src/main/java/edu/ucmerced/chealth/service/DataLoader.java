@@ -114,10 +114,10 @@ public class DataLoader {
                 new FileReader(ethnicityPath.toString()))) {
             if (!StringUtils.isBlank(csvRecord.get(0))) {
                 Ethnicity ethnicity = new Ethnicity();
-                ethnicity.setEthnicityName(csvRecord.get(0));
+                ethnicity.setEthnicity(csvRecord.get(0));
                 Ethnicity savedEthnicity = ethnicityRepository.save(ethnicity);
                 log.info(" - Saved: " + savedEthnicity);
-                ethnicities.put(savedEthnicity.getEthnicityName(), savedEthnicity);
+                ethnicities.put(savedEthnicity.getEthnicity(), savedEthnicity);
             }
         }
 
@@ -128,10 +128,10 @@ public class DataLoader {
                 new FileReader(regionPath.toString()))) {
             if (!StringUtils.isBlank(csvRecord.get(0))) {
                 Region region = new Region();
-                region.setRegionName(csvRecord.get(0));
+                region.setRegion(csvRecord.get(0));
                 Region savedRegion = regionRepository.save(region);
                 log.info(" - Saved: " + savedRegion);
-                regions.put(savedRegion.getRegionName(), savedRegion);
+                regions.put(savedRegion.getRegion(), savedRegion);
             }
         }
 
@@ -145,10 +145,10 @@ public class DataLoader {
             if (!StringUtils.isBlank(regionName) && !StringUtils.isBlank(countyName)) {
                 if (regions.containsKey(regionName)) {
                     County county = new County();
-                    county.setCountyName(countyName);
+                    county.setCounty(countyName);
                     county.setRegion(regions.get(regionName));
                     County savedCounty = countyRepository.save(county);
-                    counties.put(savedCounty.getCountyName(), savedCounty);
+                    counties.put(savedCounty.getCounty(), savedCounty);
                 } else {
                     log.error("County has unknown region: " + regionName);
                 }
@@ -166,11 +166,11 @@ public class DataLoader {
             if (!StringUtils.isBlank(dcName) && !StringUtils.isBlank(diseaseName)) {
                 if (diseaseCategories.containsKey(dcName)) {
                     Disease disease = new Disease();
-                    disease.setDiseaseName(diseaseName);
+                    disease.setDisease(diseaseName);
                     disease.setCategory(diseaseCategories.get(dcName));
                     Disease savedDisease = diseaseRepository.save(disease);
                     log.info("Saved: " + savedDisease);
-                    diseases.put(savedDisease.getDiseaseName(), savedDisease);
+                    diseases.put(savedDisease.getDisease(), savedDisease);
                 } else {
                     log.error("Disease has unknown category: " + dcName);
                 }

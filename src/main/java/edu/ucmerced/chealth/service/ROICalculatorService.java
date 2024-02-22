@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.persistence.criteria.CriteriaBuilder.In;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +19,11 @@ import edu.ucmerced.chealth.datasource.health.domain.CumulativeROIHealthModel;
 import edu.ucmerced.chealth.datasource.health.domain.HealthTotalData;
 import edu.ucmerced.chealth.datasource.health.domain.ROICalculatorRequest;
 import edu.ucmerced.chealth.datasource.health.domain.ROIHealthModelPerYear;
+import edu.ucmerced.chealth.datasource.health.repository.CountyRepository;
+import edu.ucmerced.chealth.datasource.health.repository.DiseaseRepository;
+import edu.ucmerced.chealth.datasource.health.repository.EthnicityRepository;
 import edu.ucmerced.chealth.datasource.health.repository.HealthTotalRepository;
+import edu.ucmerced.chealth.datasource.health.repository.RegionRepository;
 
 @Service
 public class ROICalculatorService {
@@ -24,30 +31,39 @@ public class ROICalculatorService {
 	@Autowired
 	private HealthTotalRepository healthTotalRepository;
 
+	@Autowired
+	private DiseaseRepository diseaseRepository;
+
+	@Autowired
+	private CountyRepository countyRepository;
+
+	@Autowired
+	private EthnicityRepository ethnicityRepository;
+
+	@Autowired
+	private RegionRepository regionRepository;
+
 	public CumulativeROIHealthModel getROIData(ROICalculatorRequest request) {
 
-		/*
-		 * ROICalculatorRequest calculatorRequest = new ROICalculatorRequest();
-		 * calculatorRequest.setCountyName("Alameda");
-		 * calculatorRequest.setDiscountedfactor(1.2f);
-		 * calculatorRequest.setDiseaseName("Arthritis");
-		 * calculatorRequest.setEthnicity("African American");
-		 * calculatorRequest.setInvestmentPerPerson(5000);
-		 * calculatorRequest.setNumberOfFollowUpYears(5);
-		 * calculatorRequest.setReductionInRateAfterYearsWithProgram(5);
-		 * calculatorRequest.setReductionInRateWithProgram(2);
-		 * calculatorRequest.setRegionName("BAY AREA COUNTIES");
-		 * calculatorRequest.setSex("Female"); calculatorRequest.setSizeOfGroup(0);
-		 * calculatorRequest.setStartAge(1); calculatorRequest.setUnDouscounted(false);
-		 */
-
-		List<String> countyList = new ArrayList<String>(Arrays.asList(request.getCountyName().split(",")));
-		List<String> ethnicityList = new ArrayList<String>(Arrays.asList(request.getEthnicity().split(","))); 
-		List<String> diseaseList = new ArrayList<String>(Arrays.asList(request.getCountyName().split(","))); 
-		List<String> genderList = new ArrayList<String>(Arrays.asList(request.getSex().split(","))); 
-		List<String> regionList = new ArrayList<String>(Arrays.asList(request.getRegionName().split(","))); 
-
-		List<HealthTotalData> healthTotalDataList =  healthTotalRepository.retrieveHealthData(25, 35, countyList, ethnicityList, diseaseList, genderList, regionList);
+		List<String> countyList =countyRepository.findByIdIn(Stream.of(request.getCountyName().split(","))
+				.map(Long::parseLong)
+				.collect(Collectors.toList()));
+		List<String> ethnicityList =ethnicityRepository.findByIdIn(Stream.of(request.getEthnicity().split(","))
+				.map(Long::parseLong)
+				.collect(Collectors.toList()));
+		List<String> diseaseList =diseaseRepository.findByIdIn(Stream.of(request.getDiseaseName().split(","))
+				.map(Long::parseLong)
+				.collect(Collectors.toList()));
+		List<String> genderList = new
+				 ArrayList<String>(Arrays.asList(request.getSex().split(",")));
+		List<String> regionList =regionRepository.findByIdIn(Stream.of(request.getRegionName().split(","))
+				.map(Long::parseLong)
+				.collect(Collectors.toList()));
+		List<Integer> ageList =  Stream.of(request.getAgeLimit().split("-"))
+				.map(Integer::parseInt)
+				.collect(Collectors.toList());
+		
+		List<HealthTotalData> healthTotalDataList =  healthTotalRepository.retrieveHealthData(ageList.get(0), ageList.get(1), countyList, ethnicityList, diseaseList, genderList, regionList);
 
 		CumulativeROIHealthModel response = getTotalsDtos(healthTotalDataList, request);
 		Gson gson = new Gson();

@@ -40,7 +40,7 @@ public class CostCalculatorController {
 
 		return ResponseEntity
 				.ok()
-				.body(costCalculatorService.getHealthData(counties, diseases, ethnicity, ageGroups, sexes));
+				.body(costCalculatorService.getHealthData(counties, diseases, ethnicity, ageGroups, sexes, regions));
 	}
 
 	@PostMapping("/roiCalculator")
