@@ -9,12 +9,12 @@ import lombok.Data;
 @Data
 public class CumulativeROIHealthModel {
 	
-	private  double totalCostSaving;
-	private  double discountedCostSaving;
-	private  double rOIDiscounted;
-	private  double rOINonDiscounted;
-	private  double totalUtilityCost;
-	private  double  totalcost;
+	private  String totalCostSaving;
+	private  String discountedCostSaving;
+	private  String rOIDiscounted;
+	private  String rOINonDiscounted;
+	private  String totalUtilityCost;
+	private  String  totalcost;
 	private  Map<Integer, List<ROIHealthModelPerYear>> agemap = new HashMap<Integer, List<ROIHealthModelPerYear>>();
 	
 	

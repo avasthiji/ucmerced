@@ -27,6 +27,9 @@ public class ROICalculatorRequest {
 	private  int ReductionInRateAfterYearsWithProgram; 
 	private  float discountedfactor;
 	
+	@JsonProperty(value = "percentIncreateInCasePerYear")
+	private float percentIncreateInCasePerYear;
+	
 	
 
 }

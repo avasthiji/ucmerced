@@ -16,14 +16,14 @@ public class HealthDataDTO {
     }
 
     public Double getCosts() {
-        return totals.getCosts();
+        return totals.getTotalHCCost();
     }
 
     public Integer getGroupName() {
         return totals.getAge();
     }
 
-    public Double getCases() {
+    public long getCases() {
         return totals.getCases();
     }
 
@@ -47,7 +47,7 @@ public class HealthDataDTO {
         return totals.getCounty();
     }
 
-    public Float getPopulation() {
+    public Long getPopulation() {
         return totals.getPopulation();
     }
 }

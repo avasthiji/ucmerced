@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import edu.ucmerced.chealth.datasource.health.domain.HealthTotalData;
-import edu.ucmerced.chealth.datasource.health.repository.AgeGroupRepository;
 import edu.ucmerced.chealth.datasource.health.repository.CountyRepository;
 import edu.ucmerced.chealth.datasource.health.repository.DiseaseRepository;
 import edu.ucmerced.chealth.datasource.health.repository.EthnicityRepository;
