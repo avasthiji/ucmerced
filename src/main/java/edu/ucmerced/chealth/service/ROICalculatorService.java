@@ -40,7 +40,7 @@ public class ROICalculatorService {
 	@Autowired
 	private RegionRepository regionRepository;
 
-	public CumulativeROIHealthModel getROIData(ROICalculatorRequest request) {
+	public Map<String, CumulativeROIHealthModel> getROIData(ROICalculatorRequest request) {
 
 		List<String> countyList =countyRepository.findByIdIn(Stream.of(request.getCountyName().split(","))
 				.map(Long::parseLong)
@@ -59,24 +59,36 @@ public class ROICalculatorService {
 		List<Integer> ageList =  Stream.of(request.getAgeLimit().split("-"))
 				.map(Integer::parseInt)
 				.collect(Collectors.toList());
+		Map<String, CumulativeROIHealthModel> responsemap = new HashMap<String, CumulativeROIHealthModel>();
 
-		List<HealthTotalData> healthTotalDataList =  healthTotalRepository.retrieveHealthData(ageList.get(0), ageList.get(1), countyList, ethnicityList, diseaseList, genderList, regionList);
-		CumulativeROIHealthModel response = getTotalsDtos(healthTotalDataList, request);
-		return response;
+		int startAge = ageList.get(0);
+		int endAge = 0;
+		for(int i = startAge ; i<= ageList.get(1) ; i++) {
+
+			endAge = i + (request.getNumberOfFollowUpYears() - 1);
+			String key = i + "-" + endAge;
+			List<HealthTotalData> healthTotalDataList =  healthTotalRepository.retrieveHealthData(i, endAge, countyList, ethnicityList, diseaseList, genderList, regionList);
+			CumulativeROIHealthModel response = getTotalsDtos(healthTotalDataList, request);
+			responsemap.put(key,response);
+		}
+
+		return responsemap;
 	}
 
 	private CumulativeROIHealthModel getTotalsDtos(List<HealthTotalData> totals, ROICalculatorRequest request) {
-		Map<Integer, Float> ageRateMap = totals.stream().collect(
-				Collectors.toMap(HealthTotalData::getAge, HealthTotalData::getPrevalenceRate));
+		/*
+		 * Map<Integer, Float> ageRateMap = totals.stream().collect(
+		 * Collectors.toMap(HealthTotalData::getAge,
+		 * HealthTotalData::getPrevalenceRate));
+		 * 
+		 * System.out.println(ageRateMap);
+		 */
 
-		System.out.println(ageRateMap);
-
-		Map<Integer, Long> populationMapWithProgram = populationCalculatorWithProgram(totals.get(0).getCases(), ageRateMap,
-				request.getReductionInRateWithProgram(), request.getReductionInRateAfterYearsWithProgram(), request.getPercentIncreateInCasePerYear());
+		Map<Integer, Long> populationMapWithProgram = populationCalculatorWithProgram(totals.get(0).getCases(),request.getNumberOfFollowUpYears(), request.getReductionInRateWithProgram(), request.getReductionInRateAfterYearsWithProgram(), request.getPercentIncreateInCasePerYear());
 
 		System.out.println(populationMapWithProgram);
 
-		Map<Integer, Long> populationMapWithoutProgram = populationCalculatorWithoutProgram(totals.get(0).getCases(), ageRateMap, request.getPercentIncreateInCasePerYear());
+		Map<Integer, Long> populationMapWithoutProgram = populationCalculatorWithoutProgram(totals.get(0).getCases(),request.getNumberOfFollowUpYears(), request.getPercentIncreateInCasePerYear());
 
 		System.out.println(populationMapWithoutProgram);
 		List<ROIHealthModelPerYear> roiHealthModelPerYears = new ArrayList<ROIHealthModelPerYear>();
@@ -84,7 +96,9 @@ public class ROICalculatorService {
 		Map<Integer, List<ROIHealthModelPerYear>> map = new HashMap<Integer, List<ROIHealthModelPerYear>>();
 		DecimalFormat df = new DecimalFormat("#");
 		df.setMaximumFractionDigits(2);
+		int iter = 0;
 		for(HealthTotalData data : totals) {
+			iter++;
 			ROIHealthModelPerYear healthModelPerYear = new ROIHealthModelPerYear();
 			healthModelPerYear.setAge(data.getAge());
 			healthModelPerYear.setCountyName(data.getCounty());
@@ -93,8 +107,9 @@ public class ROICalculatorService {
 			healthModelPerYear.setPopulation(data.getPopulation());
 			healthModelPerYear.setRegionName(data.getRegion());
 			healthModelPerYear.setSex(data.getSex());
-			healthModelPerYear.setNumberOfPeopleWithProgram(populationMapWithProgram.get(data.getAge()));
-			healthModelPerYear.setNumberOfPeopleWithOutProgram(populationMapWithoutProgram.get(data.getAge()));
+			System.out.println(iter);
+			healthModelPerYear.setNumberOfPeopleWithProgram(populationMapWithProgram.get(iter));
+			healthModelPerYear.setNumberOfPeopleWithOutProgram(populationMapWithoutProgram.get(iter));
 			healthModelPerYear.setDifference(healthModelPerYear.getNumberOfPeopleWithOutProgram() - healthModelPerYear.getNumberOfPeopleWithProgram());
 			healthModelPerYear.setInvestmentPerPerson(request.getInvestmentPerPerson());
 			double totalCostSaving = healthModelPerYear.getInvestmentPerPerson() * healthModelPerYear.getDifference();
@@ -123,50 +138,53 @@ public class ROICalculatorService {
 		return cumulativeROIHealthModel; 
 	}
 
-	public Map<Integer, Long> populationCalculatorWithoutProgram(long initailPopulation , Map<Integer, Float> ageRateMap, float percentIncreateInCasePerYear){
+	public Map<Integer, Long> populationCalculatorWithoutProgram(long initialPopulation, int numnerOfFollowupYears, float percentIncreateInCasePerYear){
 		Map<Integer, Long> agePopulationMap = new HashMap<Integer, Long>();
 		long prevPopulation = 0;
-		for (Map.Entry<Integer, Float> map : ageRateMap.entrySet()) {
+		int iterator = 0;
+		while(iterator < numnerOfFollowupYears) {
+			iterator++;
 			if(agePopulationMap.size() == 0) {
-				prevPopulation = initailPopulation;
-				agePopulationMap.put(map.getKey(), prevPopulation);
+				prevPopulation = initialPopulation;
+				agePopulationMap.put(iterator, prevPopulation);
 			}
 			else {
-				agePopulationMap.put(map.getKey(), (long)  Math.round(prevPopulation + (prevPopulation * (percentIncreateInCasePerYear/100))));
+				agePopulationMap.put(iterator, (long)  Math.round(prevPopulation + (prevPopulation * (percentIncreateInCasePerYear/100))));
 				prevPopulation = Math.round(prevPopulation + (prevPopulation * (percentIncreateInCasePerYear/100)));
 			}
+
 		}
 		return agePopulationMap;
 	}
 
-	public Map<Integer, Long> populationCalculatorWithProgram(long initailPopulation , Map<Integer, Float> ageRateMap, 
-			float reductionRate, int reductionRateAfteryear, float percentIncreateInCasePerYear){
+	public Map<Integer, Long> populationCalculatorWithProgram(long initialPopulation, int numnerOfFollowupYears, float reductionRate, int reductionRateAfteryear, float percentIncreateInCasePerYear){
 		Map<Integer, Long> agePopulationMap = new HashMap<Integer, Long>();
 		long prevPopulation = 0;
 		int i = 0;
-		for (Map.Entry<Integer, Float> map : ageRateMap.entrySet()) {
+		int iterator = 0;
+		while(iterator < numnerOfFollowupYears) {
 			i++;
+			iterator++;
 			if(agePopulationMap.size() == 0) {
-				prevPopulation = initailPopulation;
-				agePopulationMap.put(map.getKey(), prevPopulation);
+				prevPopulation = initialPopulation;
+				agePopulationMap.put(iterator, prevPopulation);
 				continue;
 			}
 			if(i > reductionRateAfteryear) {
-				agePopulationMap.put(map.getKey(), (long)  Math.round(prevPopulation + (prevPopulation * ((percentIncreateInCasePerYear- reductionRate)/100))));
+				agePopulationMap.put(iterator, (long)  Math.round(prevPopulation + (prevPopulation * ((percentIncreateInCasePerYear- reductionRate)/100))));
 				prevPopulation = Math.round(prevPopulation + (prevPopulation * (percentIncreateInCasePerYear/100)));
 			}else {
-				agePopulationMap.put(map.getKey(), (long)  Math.round(prevPopulation + (prevPopulation * ((percentIncreateInCasePerYear)/100))));
+				agePopulationMap.put(iterator, (long)  Math.round(prevPopulation + (prevPopulation * ((percentIncreateInCasePerYear)/100))));
 				prevPopulation = Math.round(prevPopulation + (prevPopulation * (percentIncreateInCasePerYear/100)));
 			}
-			
+
 
 		}
 		return agePopulationMap;
 	}
 
 	public double generateDiscountedCostSaving(float discountFacor, double costSavingPerYear) {
-		float discountRate = (1 / discountFacor); 
-		return costSavingPerYear * discountRate; 
+		return costSavingPerYear/discountFacor; 
 	}
 
 	public float calculateRoi(float netSaving, float investment) {
