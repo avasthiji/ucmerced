@@ -10,11 +10,15 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
+@Table(name = "county")
 public class County {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String countyName;
+    
+    @Column(name = "county")
+    private String county;
+    
     @ManyToOne
     @JoinColumn(name = "REGION_ID")
     private Region region;

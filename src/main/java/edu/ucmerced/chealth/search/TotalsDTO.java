@@ -1,7 +1,9 @@
 package edu.ucmerced.chealth.search;
 
 import edu.ucmerced.chealth.datasource.health.domain.Totals;
+import lombok.Setter;
 
+@Setter
 public class TotalsDTO {
     private final Totals totals;
     public TotalsDTO (Totals totals) {
@@ -9,7 +11,7 @@ public class TotalsDTO {
     }
 
     public String getDiseaseName() {
-        return totals.getDisease().getDiseaseName();
+        return totals.getDisease().getDisease();
     }
 
     public Double getCosts() {
@@ -25,11 +27,11 @@ public class TotalsDTO {
     }
 
     public String getEthnicity() {
-        return totals.getEthnicity().getEthnicityName();
+        return totals.getEthnicity().getEthnicity();
     }
 
     public String getRegionName() {
-        return totals.getRegion().getRegionName();
+        return totals.getRegion().getRegion();
     }
 
     public String getSex() {
@@ -41,7 +43,7 @@ public class TotalsDTO {
     }
 
     public String getCountyName() {
-        return totals.getCounty().getCountyName();
+        return totals.getCounty().getCounty();
     }
 
     public Long getPopulation() {

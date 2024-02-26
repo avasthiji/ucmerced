@@ -11,11 +11,14 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
+@Table(name = "disease")
 public class Disease {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String diseaseName;
+    
+    @Column(name = "disease")
+    private String disease;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID")
