@@ -1,5 +1,6 @@
 package edu.ucmerced.chealth.service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -171,11 +172,13 @@ public class CostCalculatorService {
 	private List<ObjectNode> createTotals(List<HealthTotalData> results) {
 		double costs = 0;
 		double cases = 0;
+		DecimalFormat df = new DecimalFormat("#");
+		df.setMaximumFractionDigits(2);
 		for (HealthTotalData totals: results) {
 			costs += totals.getTotalHCCost();
 			cases += totals.getCases();
 		}
 		return Collections.singletonList(mapper.createObjectNode()
-				.put("costs", costs).put("cases", cases));
+				.put("costs", df.format(costs)).put("cases", df.format(cases)));
 	}
 }

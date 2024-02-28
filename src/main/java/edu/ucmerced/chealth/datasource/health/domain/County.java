@@ -6,6 +6,8 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Getter
 @Setter
@@ -16,6 +18,7 @@ public class County {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @JsonProperty(value = "countyName")
     @Column(name = "county")
     private String county;
     

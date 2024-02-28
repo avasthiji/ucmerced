@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Getter
 @Setter
@@ -21,6 +23,7 @@ public class Ethnicity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @JsonProperty(value = "ethnicityName")
     @Column(name = "ethnicity")
     private String ethnicity;
 }
