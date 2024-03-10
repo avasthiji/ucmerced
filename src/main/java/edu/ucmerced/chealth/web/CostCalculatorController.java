@@ -1,6 +1,5 @@
 package edu.ucmerced.chealth.web;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import edu.ucmerced.chealth.datasource.health.domain.CumulativeROIHealthModel;
 import edu.ucmerced.chealth.datasource.health.domain.ROICalculatorRequest;
 import edu.ucmerced.chealth.service.CostCalculatorService;
 import edu.ucmerced.chealth.service.ROICalculatorService;
@@ -46,7 +44,7 @@ public class CostCalculatorController {
 
 	@PostMapping("/roiCalculator")
 	@ResponseBody
-	public ResponseEntity<Map<String, CumulativeROIHealthModel>> getRoiData(@RequestBody ROICalculatorRequest request) 
+	public ResponseEntity<Map<String, Object>> getRoiData(@RequestBody ROICalculatorRequest request) 
 	{
 		return ResponseEntity
 				.ok()
