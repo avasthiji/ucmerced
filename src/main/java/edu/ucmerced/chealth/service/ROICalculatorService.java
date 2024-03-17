@@ -183,7 +183,7 @@ public class ROICalculatorService {
 			totalCases = totals.stream().filter(o -> o.getAge() == age && ethnicity.equals(o.getEthnicity())).mapToDouble(o -> o.getCases()).sum();
 
 		}
-
+		double costPerCase = totals.get(0).getCostPerCase();
 		Map<Integer, Long> populationMapWithProgram = populationCalculatorWithProgram(ageMap.get(Integer.toString(age)).longValue(),request.getNumberOfFollowUpYears(), 
 				request.getReductionInRateWithProgram(), request.getReductionInRateAfterYearsWithProgram(), request.getPercentIncreateInCasePerYear());
 
@@ -200,7 +200,7 @@ public class ROICalculatorService {
 			iter++;
 			ROIHealthModelPerYear healthModelPerYear = new ROIHealthModelPerYear();
 			healthModelPerYear.setAge((int)startAge);
-			healthModelPerYear.setTotalCases(Math.round(totalCases));
+			//healthModelPerYear.setTotalCases(Math.round(totalCases));
 			healthModelPerYear.setNumberOfPeopleWithProgram(populationMapWithProgram.get(iter));
 			healthModelPerYear.setNumberOfPeopleWithOutProgram(populationMapWithoutProgram.get(iter));
 			healthModelPerYear.setDifference(healthModelPerYear.getNumberOfPeopleWithOutProgram() - healthModelPerYear.getNumberOfPeopleWithProgram());
@@ -211,7 +211,7 @@ public class ROICalculatorService {
 			healthModelPerYear.setTotalCost(df.format(healthModelPerYear.getNumberOfPeopleWithOutProgram() * request.getInvestmentPerPerson()));
 			if(iter != age)
 				utilityLoss = utilityLoss + utilityLossRate;
-			healthModelPerYear.setUtilityCost(df.format(healthModelPerYear.getNumberOfPeopleWithOutProgram() * utilityLoss));
+			healthModelPerYear.setUtilityCost(df.format(healthModelPerYear.getNumberOfPeopleWithOutProgram() * utilityLoss * costPerCase));
 			roiHealthModelPerYears.add(healthModelPerYear);
 			startAge++;
 		}

@@ -6,7 +6,7 @@ import lombok.Data;
 public class ROIHealthModelPerYear {
 
 	private  int age; 
-	private  long totalCases; 
+	//private  long totalCases; 
 	private  long numberOfPeopleWithProgram; 
 	private  long numberOfPeopleWithOutProgram;
 	private  double investmentPerPerson;
