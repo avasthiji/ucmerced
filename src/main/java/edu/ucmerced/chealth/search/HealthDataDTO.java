@@ -1,5 +1,7 @@
 package edu.ucmerced.chealth.search;
 
+import java.text.DecimalFormat;
+
 import edu.ucmerced.chealth.datasource.health.domain.HealthTotalData;
 import lombok.Setter;
 
@@ -15,8 +17,10 @@ public class HealthDataDTO {
         return totals.getDisease();
     }
 
-    public Double getCosts() {
-        return totals.getTotalHCCost();
+    public String getCosts() {
+    	DecimalFormat df = new DecimalFormat("#");
+		df.setMaximumFractionDigits(2);
+        return df.format(totals.getTotalHCCost());
     }
 
     public Integer getGroupName() {
