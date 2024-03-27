@@ -201,6 +201,7 @@ public class ROICalculatorService {
 		int iter = 0;
 		long startAge = age;
 		while(iter < request.getNumberOfFollowUpYears()) {
+			iter++;
 			if(iter == 0) {
 				
 			}
@@ -220,7 +221,7 @@ public class ROICalculatorService {
 				utilityLoss = utilityLoss + utilityLossRate;
 			healthModelPerYear.setUtilityCost(df.format(healthModelPerYear.getNumberOfPeopleWithOutProgram() * utilityLoss * costPerCase));
 			roiHealthModelPerYears.add(healthModelPerYear);
-			iter++;
+			
 			startAge++;
 		}
 		
