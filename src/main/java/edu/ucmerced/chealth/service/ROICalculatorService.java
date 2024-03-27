@@ -47,7 +47,11 @@ public class ROICalculatorService {
 
 	@Value("${utilityLossRate}")
 	private double utilityLossRate;
-
+	
+	
+	@Value("${percentIncreaseInCasePerYear}")
+	private float percentIncreaseInCasePerYear;
+	
 	public Map<String, Object> getROIData(ROICalculatorRequest request) {
 
 		List<String> countyList =countyRepository.findByIdIn(Stream.of(request.getCountyName().split(","))
@@ -165,7 +169,7 @@ public class ROICalculatorService {
 
 		//Total cases will be total number of cases for that particular age for given gender, ethnicity and region
 		Gson gson = new Gson();
-		Map<String, Double> ageMap = gson.fromJson(request.getSizeOfGroup().toString(), Map.class);
+		//Map<String, Double> ageMap = gson.fromJson(request.getSizeOfGroup().toString(), Map.class);
 
 		double utilityLoss = 0.0;
 		double totalCases = 0.0;
@@ -184,11 +188,11 @@ public class ROICalculatorService {
 
 		}
 		double costPerCase = totals.get(0).getCostPerCase();
-		Map<Integer, Long> populationMapWithProgram = populationCalculatorWithProgram(ageMap.get(Integer.toString(age)).longValue(),request.getNumberOfFollowUpYears(), 
-				request.getReductionInRateWithProgram(), request.getReductionInRateAfterYearsWithProgram(), request.getPercentIncreateInCasePerYear());
+		Map<Integer, Long> populationMapWithProgram = populationCalculatorWithProgram(request.getSizeOfGroup(),request.getNumberOfFollowUpYears(), 
+				request.getReductionInRateWithProgram(), request.getReductionInRateAfterYearsWithProgram(), percentIncreaseInCasePerYear);
 
-		Map<Integer, Long> populationMapWithoutProgram = populationCalculatorWithoutProgram(ageMap.get(Integer.toString(age)).longValue(),request.getNumberOfFollowUpYears(), 
-				request.getPercentIncreateInCasePerYear());
+		Map<Integer, Long> populationMapWithoutProgram = populationCalculatorWithoutProgram(request.getSizeOfGroup(),request.getNumberOfFollowUpYears(), 
+				percentIncreaseInCasePerYear);
 
 		List<ROIHealthModelPerYear> roiHealthModelPerYears = new ArrayList<ROIHealthModelPerYear>();
 		CumulativeROIHealthModel cumulativeROIHealthModel = new CumulativeROIHealthModel();
@@ -197,7 +201,10 @@ public class ROICalculatorService {
 		int iter = 0;
 		long startAge = age;
 		while(iter < request.getNumberOfFollowUpYears()) {
-			iter++;
+			if(iter == 0) {
+				
+			}
+			
 			ROIHealthModelPerYear healthModelPerYear = new ROIHealthModelPerYear();
 			healthModelPerYear.setAge((int)startAge);
 			//healthModelPerYear.setTotalCases(Math.round(totalCases));
@@ -213,6 +220,7 @@ public class ROICalculatorService {
 				utilityLoss = utilityLoss + utilityLossRate;
 			healthModelPerYear.setUtilityCost(df.format(healthModelPerYear.getNumberOfPeopleWithOutProgram() * utilityLoss * costPerCase));
 			roiHealthModelPerYears.add(healthModelPerYear);
+			iter++;
 			startAge++;
 		}
 		

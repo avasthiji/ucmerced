@@ -16,10 +16,9 @@ public class ROICalculatorRequest {
 	
 	@JsonProperty(value = "InvestmentPerPerson")
 	private  double InvestmentPerPerson; 
-	private  boolean unDiscounted; 
 	private  int numberOfFollowUpYears; 
-	private  Object sizeOfGroup; 
-	
+	//private  Object sizeOfGroup; 
+	private long sizeOfGroup;
 	@JsonProperty(value = "ReductionInRateWithProgram")
 	private  float ReductionInRateWithProgram; 
 	
@@ -27,8 +26,8 @@ public class ROICalculatorRequest {
 	private  int ReductionInRateAfterYearsWithProgram; 
 	private  float discountedfactor;
 	
-	@JsonProperty(value = "percentIncreateInCasePerYear")
-	private float percentIncreateInCasePerYear;
+	@JsonProperty(value = "initialProgramCost")
+	private long initialProgramCost;
 	
 	
 
