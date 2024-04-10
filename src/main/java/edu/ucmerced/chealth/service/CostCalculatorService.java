@@ -3,9 +3,7 @@ package edu.ucmerced.chealth.service;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,7 +19,7 @@ import edu.ucmerced.chealth.datasource.health.repository.DiseaseRepository;
 import edu.ucmerced.chealth.datasource.health.repository.EthnicityRepository;
 import edu.ucmerced.chealth.datasource.health.repository.HealthTotalRepository;
 import edu.ucmerced.chealth.datasource.health.repository.RegionRepository;
-import edu.ucmerced.chealth.search.HealthDataDTO;
+import edu.ucmerced.chealth.search.HealthDataPerCaseResponse;
 
 /*
  * Format health data into the format needed by our front end.
@@ -87,98 +85,58 @@ public class CostCalculatorService {
 				.map(Integer::parseInt)
 				.collect(Collectors.toList());
 		
-		List<HealthTotalData> healthDataList =  healthTotalRepository.retrieveHealthData(ageList.get(0), ageList.get(1), countyList, ethnicityList, diseaseList, genderList, regionList);
+		List<HealthTotalData> countiesHealthDataList =  healthTotalRepository.retrieveHealthData(ageList.get(0), ageList.get(1), countyList, ethnicityList, diseaseList, genderList, regionList);
+		
+		List<HealthTotalData> regionHealthDataList =  healthTotalRepository.retrieveHealthData(ageList.get(0), ageList.get(1), ethnicityList, diseaseList, genderList, regionList);
 
-		return createSearchResult(healthDataList, regionList);
+		return createSearchResult(countiesHealthDataList,regionHealthDataList, diseaseList, countyList, regionList);
 
 
 	}
 
-	public ObjectNode createSearchResult(List<HealthTotalData> results, List<String> regionList) {
+	public ObjectNode createSearchResult(List<HealthTotalData> countiesHealthDataList,List<HealthTotalData> regionHealthDataList, List<String> diseaseList, 
+			 List<String> countyList,  List<String> regionList) {
 		return mapper.createObjectNode()
-				.putPOJO("Totals", createBreakdown(results, regionList))
-				.putPOJO("diseases", getDiseaseResults(results, regionList));
+				.putPOJO("Totals", createPerCountyRessults(countiesHealthDataList, diseaseList, countyList))
+				.putPOJO("Counties", createRegionResults(regionHealthDataList, diseaseList, regionList.get(0) ));
 	}
-
-	private ObjectNode createBreakdown(List<HealthTotalData> results, List<String> regionIds) {
-		return addBreakdown(mapper.createObjectNode(), results, regionIds);
-	}
-
-	private ObjectNode addBreakdown(ObjectNode node, List<HealthTotalData> results, List<String> regionIds) {
-		return node.putPOJO("totals", createTotals(results))
-				.putPOJO("regions", getRegionResults(regionIds, results))
-				.putPOJO("counties", createCountyResults(results));
-	}
-
-	private ObjectNode createNamedBreakdown(String name, List<HealthTotalData> results, List<String> regionIds) {
-		return addBreakdown(mapper.createObjectNode().putPOJO("name", name), results, regionIds);
-	}
-
-	private List<ObjectNode> createCountyResults(List<HealthTotalData> results) {
-		return results.stream()
-				.collect(Collectors.groupingBy(HealthTotalData::getCounty, Collectors.toUnmodifiableList()))
-				.entrySet().stream().sorted(Map.Entry.comparingByKey())
-				.map(entry -> createCountyResult(entry.getKey(), entry.getValue()))
-				.collect(Collectors.toList());
-	}
-
-	/**
-	 * Create a county result with the following structure:
-	 *   {"Marin": {"data": [], "totals": [] }}
-	 */
-	private ObjectNode createCountyResult(String name, List<HealthTotalData> results) {
-		return mapper.createObjectNode().putPOJO(name,
-				mapper.createObjectNode()
-				.putPOJO("data", getTotalsDtos(results))
-				.putPOJO("totals", createTotals(results))
-				);
-	}
-
-	private List<HealthDataDTO> getTotalsDtos(List<HealthTotalData> totals) {
-		return totals.stream().map(HealthDataDTO::new).collect(Collectors.toList());
-	}
-
-	/**
-	 * Provide the disease results for a batch of data. Like the county results, we need
-	 * to gather up the Totals applicable to each disease, then produce a DiseaseResult
-	 * for the batch.
-	 */
-	private List<ObjectNode> getDiseaseResults(List<HealthTotalData> results, List<String> regionIds) {
-		return results.stream()
-				.collect(Collectors.groupingBy(HealthTotalData::getDisease, Collectors.toUnmodifiableList()))
-				.entrySet().stream().sorted(Map.Entry.comparingByKey())
-				.map(entry -> createNamedBreakdown(entry.getKey(), entry.getValue(), regionIds))
-				.collect(Collectors.toList());
-	}
-
-	/**
-	 * Create a list of "region results", consisting of the region name and the amount of
-	 * cases and costs per region: { "region name": { cases: #, costs #}}
-	 */
-	private List<ObjectNode> getRegionResults(List<String> regionIds, List<HealthTotalData> results) {
-		return results.stream()
-				.filter(t -> regionIds.contains(t.getRegion()))
-				.collect(Collectors.groupingBy(HealthTotalData::getRegion, Collectors.toUnmodifiableList()))
-				.entrySet().stream()
-				.sorted(Map.Entry.comparingByKey())
-				.map(entry -> mapper.createObjectNode()
-						.putPOJO(entry.getKey(), createTotals(entry.getValue())))
-				.collect(Collectors.toList());
-	}
-
-	/**
-	 * Provide the sums of costs and cases. Oddly, they are always in a list.
-	 */
-	private List<ObjectNode> createTotals(List<HealthTotalData> results) {
-		double costs = 0;
-		double cases = 0;
+	
+	private HealthDataPerCaseResponse createPerCountyRessults(List<HealthTotalData> countiesHealthDataList, List<String> conditions, List<String> counties) {
 		DecimalFormat df = new DecimalFormat("#");
 		df.setMaximumFractionDigits(2);
-		for (HealthTotalData totals: results) {
-			costs += totals.getTotalHCCost();
-			cases += totals.getCases();
-		}
-		return Collections.singletonList(mapper.createObjectNode()
-				.put("costs", df.format(costs)).put("cases", df.format(cases)));
+		HealthDataPerCaseResponse healthDataPerCaseResponse = new HealthDataPerCaseResponse();
+		healthDataPerCaseResponse.setConditions(String.join(",", conditions));
+		healthDataPerCaseResponse.setCounty(String.join(",", counties));
+		healthDataPerCaseResponse.setCostPerCase(df.format(countiesHealthDataList.stream().mapToDouble(o->o.getCostPerCase()).average().orElse(0.0)));
+		healthDataPerCaseResponse.setUtilityCostPerCase(df.format(countiesHealthDataList.stream().mapToDouble(o->o.getUtilityLoss()).average().orElse(0.0)));
+		healthDataPerCaseResponse.setRates(df.format(countiesHealthDataList.stream().mapToDouble(o -> o.getAverageHealthyUtility() - o.getAverageUtility()).average().orElse(0.0)));
+		healthDataPerCaseResponse.setCases(df.format(countiesHealthDataList.stream().mapToDouble(o->o.getCases()).sum()));
+		healthDataPerCaseResponse.setHealthCareCost(df.format(countiesHealthDataList.stream().mapToDouble(o->o.getTotalHCCost()).sum()));
+		healthDataPerCaseResponse.setUtilityLoss(df.format(countiesHealthDataList.stream().mapToDouble(o->o.getUtilityLoss()).sum()));
+		healthDataPerCaseResponse.setTotalCost(df.format(countiesHealthDataList.stream().mapToDouble(o->o.getTotalTotalCost()).sum()));
+
+		return healthDataPerCaseResponse;
+		
 	}
+	
+	private HealthDataPerCaseResponse createRegionResults(List<HealthTotalData> regionHealthDataList, List<String> conditions, String region) {
+		DecimalFormat df = new DecimalFormat("#");
+		df.setMaximumFractionDigits(2);
+		HealthDataPerCaseResponse healthDataPerCaseResponse = new HealthDataPerCaseResponse();
+		healthDataPerCaseResponse.setConditions(String.join(",", conditions));
+		healthDataPerCaseResponse.setCounty("All Counties of " + region);
+		healthDataPerCaseResponse.setCostPerCase(df.format(regionHealthDataList.stream().mapToDouble(o->o.getCostPerCase()).average().orElse(0.0)));
+		healthDataPerCaseResponse.setUtilityCostPerCase(df.format(regionHealthDataList.stream().mapToDouble(o->o.getUtilityLoss()).average().orElse(0.0)));
+		healthDataPerCaseResponse.setRates(df.format(regionHealthDataList.stream().mapToDouble(o -> o.getAverageHealthyUtility() - o.getAverageUtility()).average().orElse(0.0)));
+		healthDataPerCaseResponse.setCases(df.format(regionHealthDataList.stream().mapToDouble(o->o.getCases()).sum()));
+		healthDataPerCaseResponse.setHealthCareCost(df.format(regionHealthDataList.stream().mapToDouble(o->o.getTotalHCCost()).sum()));
+		healthDataPerCaseResponse.setUtilityLoss(df.format(regionHealthDataList.stream().mapToDouble(o->o.getUtilityLoss()).sum()));
+		healthDataPerCaseResponse.setTotalCost(df.format(regionHealthDataList.stream().mapToDouble(o->o.getTotalTotalCost()).sum()));
+
+		return healthDataPerCaseResponse;
+	}
+
+	
+	
+	
 }

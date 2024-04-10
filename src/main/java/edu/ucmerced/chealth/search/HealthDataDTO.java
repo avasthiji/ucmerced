@@ -17,10 +17,22 @@ public class HealthDataDTO {
         return totals.getDisease();
     }
 
-    public String getCosts() {
+    public String gethealthcareCost() {
     	DecimalFormat df = new DecimalFormat("#");
 		df.setMaximumFractionDigits(2);
         return df.format(totals.getTotalHCCost());
+    }
+    
+    public String gettotalCost() {
+    	DecimalFormat df = new DecimalFormat("#");
+		df.setMaximumFractionDigits(2);
+        return df.format(totals.getTotalTotalCost());
+    }
+    
+    public String getutilityLoss() {
+    	DecimalFormat df = new DecimalFormat("#");
+		df.setMaximumFractionDigits(2);
+        return df.format(totals.getUtilityLoss());
     }
 
     public Integer getGroupName() {
