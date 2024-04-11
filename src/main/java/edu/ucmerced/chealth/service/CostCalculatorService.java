@@ -97,8 +97,8 @@ public class CostCalculatorService {
 	public ObjectNode createSearchResult(List<HealthTotalData> countiesHealthDataList,List<HealthTotalData> regionHealthDataList, List<String> diseaseList, 
 			 List<String> countyList,  List<String> regionList) {
 		return mapper.createObjectNode()
-				.putPOJO("Totals", createPerCountyRessults(countiesHealthDataList, diseaseList, countyList))
-				.putPOJO("Counties", createRegionResults(regionHealthDataList, diseaseList, regionList.get(0) ));
+				.putPOJO("Counties", createPerCountyRessults(countiesHealthDataList, diseaseList, countyList))
+				.putPOJO("Totals", createRegionResults(regionHealthDataList, diseaseList, regionList.get(0) ));
 	}
 	
 	private HealthDataPerCaseResponse createPerCountyRessults(List<HealthTotalData> countiesHealthDataList, List<String> conditions, List<String> counties) {
