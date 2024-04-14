@@ -54,7 +54,9 @@ public class HealthTotalData {
     
     private Double utilityLoss;
     
-    private Double totalCostOfUtility;
+    private Double TotalUtilityLoss;
+    
+    private Double costOfUtility;
     
     private Double TotalTotalCost;
   

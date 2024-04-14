@@ -108,11 +108,11 @@ public class CostCalculatorService {
 		healthDataPerCaseResponse.setConditions(String.join(",", conditions));
 		healthDataPerCaseResponse.setCounty(String.join(",", counties));
 		healthDataPerCaseResponse.setCostPerCase(df.format(countiesHealthDataList.stream().mapToDouble(o->o.getCostPerCase()).average().orElse(0.0)));
-		healthDataPerCaseResponse.setUtilityCostPerCase(df.format(countiesHealthDataList.stream().mapToDouble(o->o.getUtilityLoss()).average().orElse(0.0)));
-		healthDataPerCaseResponse.setRates(df.format(countiesHealthDataList.stream().mapToDouble(o -> o.getAverageHealthyUtility() - o.getAverageUtility()).average().orElse(0.0)));
+		healthDataPerCaseResponse.setUtilityLossPerCase(df.format(countiesHealthDataList.stream().mapToDouble(o->o.getUtilityLoss()).average().orElse(0.0)));
+		healthDataPerCaseResponse.setRates(df.format(countiesHealthDataList.stream().mapToDouble(o -> o.getPrevalenceRate()).average().orElse(0.0)));
 		healthDataPerCaseResponse.setCases(df.format(countiesHealthDataList.stream().mapToDouble(o->o.getCases()).sum()));
 		healthDataPerCaseResponse.setHealthCareCost(df.format(countiesHealthDataList.stream().mapToDouble(o->o.getTotalHCCost()).sum()));
-		healthDataPerCaseResponse.setUtilityLoss(df.format(countiesHealthDataList.stream().mapToDouble(o->o.getUtilityLoss()).sum()));
+		healthDataPerCaseResponse.setUtilityLoss(df.format(countiesHealthDataList.stream().mapToDouble(o->o.getTotalUtilityLoss()).sum()));
 		healthDataPerCaseResponse.setTotalCost(df.format(countiesHealthDataList.stream().mapToDouble(o->o.getTotalTotalCost()).sum()));
 
 		return healthDataPerCaseResponse;
@@ -126,11 +126,11 @@ public class CostCalculatorService {
 		healthDataPerCaseResponse.setConditions(String.join(",", conditions));
 		healthDataPerCaseResponse.setCounty("All Counties of " + region);
 		healthDataPerCaseResponse.setCostPerCase(df.format(regionHealthDataList.stream().mapToDouble(o->o.getCostPerCase()).average().orElse(0.0)));
-		healthDataPerCaseResponse.setUtilityCostPerCase(df.format(regionHealthDataList.stream().mapToDouble(o->o.getUtilityLoss()).average().orElse(0.0)));
-		healthDataPerCaseResponse.setRates(df.format(regionHealthDataList.stream().mapToDouble(o -> o.getAverageHealthyUtility() - o.getAverageUtility()).average().orElse(0.0)));
+		healthDataPerCaseResponse.setUtilityLossPerCase(df.format(regionHealthDataList.stream().mapToDouble(o->o.getUtilityLoss()).average().orElse(0.0)));
+		healthDataPerCaseResponse.setRates(df.format(regionHealthDataList.stream().mapToDouble(o -> o.getPrevalenceRate()).average().orElse(0.0)));
 		healthDataPerCaseResponse.setCases(df.format(regionHealthDataList.stream().mapToDouble(o->o.getCases()).sum()));
 		healthDataPerCaseResponse.setHealthCareCost(df.format(regionHealthDataList.stream().mapToDouble(o->o.getTotalHCCost()).sum()));
-		healthDataPerCaseResponse.setUtilityLoss(df.format(regionHealthDataList.stream().mapToDouble(o->o.getUtilityLoss()).sum()));
+		healthDataPerCaseResponse.setUtilityLoss(df.format(regionHealthDataList.stream().mapToDouble(o->o.getTotalUtilityLoss()).sum()));
 		healthDataPerCaseResponse.setTotalCost(df.format(regionHealthDataList.stream().mapToDouble(o->o.getTotalTotalCost()).sum()));
 
 		return healthDataPerCaseResponse;
