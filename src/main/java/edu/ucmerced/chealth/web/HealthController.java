@@ -3,6 +3,7 @@ package edu.ucmerced.chealth.web;
 import edu.ucmerced.chealth.datasource.health.domain.*;
 import edu.ucmerced.chealth.datasource.health.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 public class HealthController {
     @Autowired
     private AgeGroupRepository ageGroupRepository;

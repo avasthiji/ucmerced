@@ -23,7 +23,7 @@ public class Region {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @JsonProperty(value = "regionName")
+    @JsonProperty(value = "name")
     @Column(name = "region")
     private String region;
 }

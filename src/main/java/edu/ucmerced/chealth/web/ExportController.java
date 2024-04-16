@@ -82,7 +82,7 @@ public class ExportController {
                 .body(new InputStreamResource(new ByteArrayInputStream(out.toByteArray())));
     }
     
-    @GetMapping("/exportData")
+    @GetMapping("/api/exportData")
     public ResponseEntity<Resource> exportCostData(
     		@RequestParam(value = "region", required = false) String regions,
 			@RequestParam("county") String counties,

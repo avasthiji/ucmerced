@@ -18,7 +18,7 @@ public class County {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @JsonProperty(value = "countyName")
+    @JsonProperty(value = "name")
     @Column(name = "county")
     private String county;
     

@@ -89,10 +89,10 @@ public class DataLoader {
         for (CSVRecord csvRecord : CSVFormat.DEFAULT.parse(
                 new FileReader(ageGroupPath.toString()))) {
             AgeGroup ageGroup = new AgeGroup();
-            ageGroup.setGroupName(csvRecord.get(0));
+            ageGroup.setName(csvRecord.get(0));
             AgeGroup savedAgeGroup = ageGroupRepository.save(ageGroup);
             log.info(" - Saved: " + savedAgeGroup);
-            ageGroups.put(savedAgeGroup.getGroupName(), savedAgeGroup);
+            ageGroups.put(savedAgeGroup.getName(), savedAgeGroup);
         }
 
         log.info("Inserting disease categories");

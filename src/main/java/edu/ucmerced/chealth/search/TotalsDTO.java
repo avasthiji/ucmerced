@@ -19,7 +19,7 @@ public class TotalsDTO {
     }
 
     public String getGroupName() {
-        return totals.getAgeGroup().getGroupName();
+        return totals.getAgeGroup().getName();
     }
 
     public Double getCases() {

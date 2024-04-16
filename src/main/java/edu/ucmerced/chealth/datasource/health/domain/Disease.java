@@ -19,7 +19,7 @@ public class Disease {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @JsonProperty(value = "diseaseName")
+    @JsonProperty(value = "name")
     @Column(name = "disease")
     private String disease;
     @JsonIgnore

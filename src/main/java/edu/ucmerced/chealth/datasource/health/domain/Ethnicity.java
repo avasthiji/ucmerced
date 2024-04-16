@@ -23,7 +23,7 @@ public class Ethnicity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @JsonProperty(value = "ethnicityName")
+    @JsonProperty(value = "name")
     @Column(name = "ethnicity")
     private String ethnicity;
 }
