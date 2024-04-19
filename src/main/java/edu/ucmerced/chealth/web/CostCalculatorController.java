@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import edu.ucmerced.chealth.datasource.health.domain.ROICalculatorRequest;
 import edu.ucmerced.chealth.service.CostCalculatorService;
-import edu.ucmerced.chealth.service.ROICalculatorService;
+import edu.ucmerced.chealth.service.ROICalculatorServiceImpl;
 
 @CrossOrigin
 @RestController
@@ -27,7 +27,7 @@ public class CostCalculatorController {
 	private CostCalculatorService costCalculatorService;
 
 	@Autowired
-	private ROICalculatorService calculatorService;
+	private ROICalculatorServiceImpl calculatorService;
 
 	@GetMapping("/utilityCost")
 	@ResponseBody

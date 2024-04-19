@@ -199,17 +199,18 @@ public class DataLoader {
         log.info(" - " + numTotals + " totals were inserted");
         
         log.info("Inserting Health Data ROI...");
-        Path HealthDataPath = dataPath.resolve("Data_ToolROI-1.csv");
+        //Path HealthDataPath = dataPath.resolve("Data_ToolROI-1.csv");
+        Path HealthDataPath = dataPath.resolve("TestDataClient.csv");
         int data = 0;
         for (CSVRecord csvRecord : CSVFormat.DEFAULT.parse(
                 new FileReader(HealthDataPath.toString()))) {
         	if (csvRecord.size() == 18) {
         		HealthTotalData healthTotalData = new HealthTotalData();
-        		healthTotalData.setDisease(csvRecord.get(0));
-        		healthTotalData.setRegion(csvRecord.get(1));
-        		healthTotalData.setCounty(csvRecord.get(2));
-        		healthTotalData.setEthnicity(csvRecord.get(3));
-        		healthTotalData.setSex(csvRecord.get(4));
+        		healthTotalData.setDisease(csvRecord.get(0).trim());
+        		healthTotalData.setRegion(csvRecord.get(1).trim());
+        		healthTotalData.setCounty(csvRecord.get(2).trim());
+        		healthTotalData.setEthnicity(csvRecord.get(3).trim());
+        		healthTotalData.setSex(csvRecord.get(4).trim());
         		healthTotalData.setAge(Integer.parseInt(csvRecord.get(5)));
         		healthTotalData.setCases(Math.round(Double.valueOf(csvRecord.get(6))));
         		healthTotalData.setCosts(Double.valueOf(csvRecord.get(7)));
