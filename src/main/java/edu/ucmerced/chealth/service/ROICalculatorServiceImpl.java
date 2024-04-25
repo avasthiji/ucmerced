@@ -145,15 +145,15 @@ public class ROICalculatorServiceImpl {
 			healthModelPerYear.setCasesAfterProgram(Double.valueOf(df.format(cases * anticipatedPrevRate)));
 			
 			//double utilityDiff = Double.valueOf(df.format(totals.stream().filter(o -> o.getAge() == newStartAge).mapToDouble(o -> o.getUtilityLoss()).average().orElse(0)));
-			double utilityDiff = BigDecimal.valueOf(getAverageUtilityDiff(totals, newStartAge)).setScale(3, RoundingMode.DOWN).doubleValue();
-			healthModelPerYear.setUtilityDiffAfterWithDiscount(BigDecimal.valueOf(utilityDiff * discountRate).setScale(3, RoundingMode.DOWN).doubleValue());
+			double utilityDiff = BigDecimal.valueOf(getAverageUtilityDiff(totals, newStartAge)).setScale(2, RoundingMode.DOWN).doubleValue();
+			healthModelPerYear.setUtilityDiffAfterWithDiscount(BigDecimal.valueOf(utilityDiff * discountRate).setScale(2, RoundingMode.DOWN).doubleValue());
 			healthModelPerYear.setUtilityDiffInitialWithoutDiscount(utilityDiff);
 			
 			healthModelPerYear.setUtilityLossDiscountedInitial(BigDecimal.valueOf(healthModelPerYear.getUtilityDiffAfterWithDiscount() * healthModelPerYear.getCasesBeforeProgram()).setScale(2, RoundingMode.DOWN).doubleValue());
 			healthModelPerYear.setUtilityLossDiscountedAfter(BigDecimal.valueOf(healthModelPerYear.getUtilityDiffAfterWithDiscount() * healthModelPerYear.getCasesAfterProgram()).setScale(2, RoundingMode.DOWN).doubleValue());
 			healthModelPerYear.setUtilityLossDiscountedDiff(BigDecimal.valueOf(healthModelPerYear.getUtilityLossDiscountedInitial() - healthModelPerYear.getUtilityLossDiscountedAfter()).setScale(2,RoundingMode.DOWN).doubleValue());
 			
-			healthModelPerYear.setUtilityLossAfter(BigDecimal.valueOf(healthModelPerYear.getUtilityDiffInitialWithoutDiscount() * healthModelPerYear.getCasesAfterProgram()).setScale(0, RoundingMode.DOWN).doubleValue());
+			healthModelPerYear.setUtilityLossAfter(BigDecimal.valueOf(healthModelPerYear.getUtilityDiffInitialWithoutDiscount() * healthModelPerYear.getCasesAfterProgram()).setScale(2, RoundingMode.DOWN).doubleValue());
 			healthModelPerYear.setUtilityLossInitial(BigDecimal.valueOf(healthModelPerYear.getUtilityDiffInitialWithoutDiscount() * healthModelPerYear.getCasesBeforeProgram()).setScale(2, RoundingMode.DOWN).doubleValue());
 			healthModelPerYear.setUtilityLossDiff(healthModelPerYear.getUtilityLossInitial() - healthModelPerYear.getUtilityLossAfter());
 			
