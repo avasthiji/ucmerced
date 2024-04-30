@@ -29,6 +29,7 @@ public class ROIHealthModelPerYear {
 	private double utilityLossAfter; 
 	private double utilityLossDiff; 
 	
+	private double costPerCase;
 	private double totalCostInitial;
 	private double totalCostAfter;
 	private double totalCostDiff;
