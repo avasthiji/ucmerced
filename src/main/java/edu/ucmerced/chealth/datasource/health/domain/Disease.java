@@ -1,6 +1,8 @@
 package edu.ucmerced.chealth.datasource.health.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,11 +13,15 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
+@Table(name = "disease")
 public class Disease {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String diseaseName;
+    
+    @JsonProperty(value = "name")
+    @Column(name = "disease")
+    private String disease;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID")

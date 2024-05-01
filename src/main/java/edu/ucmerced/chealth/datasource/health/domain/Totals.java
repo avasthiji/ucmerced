@@ -22,7 +22,7 @@ public class Totals {
     @Column(precision=19, scale=2)
     private Double costs;
     @ManyToOne
-    @JoinColumn(name = "COUNTY_ID")
+    @JoinColumn(name = "county")
     private County county;
     @ManyToOne
     @JoinColumn(name = "DISEASE_ID")
@@ -38,11 +38,11 @@ public class Totals {
     private Region region;
 
     public String getCountyName() {
-        return county.getCountyName();
+        return county.getCounty();
     }
 
     public String getDiseaseName() {
-        return disease.getDiseaseName();
+        return disease.getDisease();
     }
 
     public Long getRegionId() {
@@ -50,6 +50,6 @@ public class Totals {
     }
 
     public String getRegionName() {
-        return region.getRegionName();
+        return region.getRegion();
     }
 }

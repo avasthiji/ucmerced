@@ -7,12 +7,14 @@ import edu.ucmerced.chealth.service.SearchFormatter;
 import edu.ucmerced.chealth.service.SearchService;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @CommonsLog
 public class SearchController {
