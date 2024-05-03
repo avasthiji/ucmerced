@@ -41,8 +41,8 @@ public class ROIHealthModelPerYear {
 	private double totalCostAfter;
 	private double totalCostDiff;
 	private double totalCostDiffDiscounted;
-	private  double investment;
-	private  double discountedInvestment;
+	private double investment;
+	private double discountedInvestment;
 
 
 	

@@ -236,9 +236,9 @@ public class ROICalculatorServiceImpl {
 		cumulativeROIHealthModel.setTotalCostWithoutQalyDiff(cumulativeROIHealthModel.getTotalCostWithoutQalyWithoutProgram() - cumulativeROIHealthModel.getTotalCostWithoutQalyWithProgram());
 
 		//Total costs over ‘X’ years (with QALYs)	
-		cumulativeROIHealthModel.setTotalCostWithQalyWithoutProgram(BigDecimal.valueOf(roiHealthModelPerYears.stream().mapToDouble(o -> Double.valueOf(o.getTotalCostInitial())).sum()).setScale(2, RoundingMode.DOWN).doubleValue());
+		cumulativeROIHealthModel.setTotalCostWithQalyWithoutProgram(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> Double.valueOf(o.getTotalCostInitial())).sum()));
 		cumulativeROIHealthModel.setTotalCostWithQalyWithProgram(BigDecimal.valueOf(roiHealthModelPerYears.stream().mapToDouble(o -> Double.valueOf(o.getTotalCostAfter())).sum()).setScale(2, RoundingMode.DOWN).doubleValue());
-		cumulativeROIHealthModel.setTotalCostWithQalyDiff(cumulativeROIHealthModel.getTotalCostWithQalyWithoutProgram() - cumulativeROIHealthModel.getTotalCostWithQalyWithProgram());
+		cumulativeROIHealthModel.setTotalCostWithQalyDiff(Double.parseDouble(cumulativeROIHealthModel.getTotalCostWithQalyWithoutProgram()) - cumulativeROIHealthModel.getTotalCostWithQalyWithProgram());
 		
 		//Total QALYs over ‘X’ years
 		cumulativeROIHealthModel.setTotalQalyWithProgram(roiHealthModelPerYears.stream().mapToDouble( o -> o.getUtilityLossAfter()).sum() );
