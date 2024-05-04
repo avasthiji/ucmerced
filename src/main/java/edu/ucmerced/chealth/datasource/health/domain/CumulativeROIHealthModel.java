@@ -53,7 +53,7 @@ public class CumulativeROIHealthModel {
 	private double totalCostWithoutQalyDiff;
 	
 	private double totalCostWithQalyWithProgram;
-	private String totalCostWithQalyWithoutProgram;
+	private double totalCostWithQalyWithoutProgram;
 	private double totalCostWithQalyDiff;
 	
 	private double totalQalyWithProgram;

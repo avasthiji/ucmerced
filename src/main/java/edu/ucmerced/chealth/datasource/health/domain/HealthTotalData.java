@@ -35,16 +35,16 @@ public class HealthTotalData {
     
     private Integer age;
     
-    private long cases;
+    private double cases;
     @Column(precision=19, scale=2)
     
     private Double costs;
     
-    private Long population;
+    private Double population;
     
-    private Float prevalenceRate;
+    private Double prevalenceRate;
     
-    private Float averageUtility;
+    private Double averageUtility;
     
     private Double averageHealthyUtility;
     

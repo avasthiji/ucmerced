@@ -22,7 +22,7 @@ public class HealthDataDTO {
 		return totals.getAge();
 	}
 
-	public long getCases() {
+	public double getCases() {
 		return totals.getCases();
 	}
 
@@ -38,7 +38,7 @@ public class HealthDataDTO {
 		return totals.getSex();
 	}
 
-	public Float getPrevalenceRate() {
+	public Double getPrevalenceRate() {
 		return totals.getPrevalenceRate();
 	}
 
@@ -46,7 +46,7 @@ public class HealthDataDTO {
 		return totals.getCounty();
 	}
 
-	public Long getPopulation() {
+	public double getPopulation() {
 		return totals.getPopulation();
 	}
 

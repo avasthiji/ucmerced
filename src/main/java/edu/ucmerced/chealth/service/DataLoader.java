@@ -212,11 +212,11 @@ public class DataLoader {
         		healthTotalData.setEthnicity(csvRecord.get(3).trim());
         		healthTotalData.setSex(csvRecord.get(4).trim());
         		healthTotalData.setAge(Integer.parseInt(csvRecord.get(5)));
-        		healthTotalData.setCases(Math.round(Double.valueOf(csvRecord.get(6))));
+        		healthTotalData.setCases(Double.valueOf(Double.valueOf(csvRecord.get(6))));
         		healthTotalData.setCosts(Double.valueOf(csvRecord.get(7)));
-        		healthTotalData.setPopulation(Long.valueOf(csvRecord.get(8)));
-        		healthTotalData.setPrevalenceRate(Float.valueOf(csvRecord.get(9)));
-        		healthTotalData.setAverageUtility(Float.valueOf(csvRecord.get(10)));
+        		healthTotalData.setPopulation(Double.valueOf(csvRecord.get(8)));
+        		healthTotalData.setPrevalenceRate(Double.valueOf(csvRecord.get(9)));
+        		healthTotalData.setAverageUtility(Double.valueOf(csvRecord.get(10)));
         		healthTotalData.setAverageHealthyUtility(Double.valueOf(csvRecord.get(11)));
           		healthTotalData.setCostPerCase(Double.valueOf(csvRecord.get(12)));	
         		healthTotalData.setTotalHCCost(Double.valueOf(csvRecord.get(13)));
