@@ -23,13 +23,13 @@ public class CumulativeROIHealthModel {
 	private double ratesAfterProgram;
 	private double ratesDiff;
 	
-	private double populationInitial;
-	private double populationAfterProgram;
-	private double populationDiff;
+	private long populationInitial;
+	private long populationAfterProgram;
+	private long populationDiff;
 	
-	private double casesInitial;
-	private double casesAfterProgram;
-	private double casesDiff;
+	private long casesInitial;
+	private long casesAfterProgram;
+	private long casesDiff;
 	
 	private double utilityLossInitial;
 	private double utilityLossAfterProgram;
@@ -39,8 +39,8 @@ public class CumulativeROIHealthModel {
 	private double healthCareCostAfterProgram;
 	private double healthCareCostDiff;
 	
-	private double totalCostInitial;
-	private double totalCostAfterProgram;
+	private String totalCostInitial;
+	private String totalCostAfterProgram;
 	private double totalCostDiff;
 	
 	//Table 2
@@ -52,8 +52,8 @@ public class CumulativeROIHealthModel {
 	private double totalCostWithoutQalyWithoutProgram;
 	private double totalCostWithoutQalyDiff;
 	
-	private double totalCostWithQalyWithProgram;
-	private double totalCostWithQalyWithoutProgram;
+	private String totalCostWithQalyWithProgram;
+	private String totalCostWithQalyWithoutProgram;
 	private double totalCostWithQalyDiff;
 	
 	private double totalQalyWithProgram;
