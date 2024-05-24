@@ -148,6 +148,7 @@ public class DataLoader {
                     county.setCounty(countyName);
                     county.setRegion(regions.get(regionName));
                     County savedCounty = countyRepository.save(county);
+                    log.info("Saved: " + savedCounty);
                     counties.put(savedCounty.getCounty(), savedCounty);
                 } else {
                     log.error("County has unknown region: " + regionName);
