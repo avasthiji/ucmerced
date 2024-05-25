@@ -122,7 +122,7 @@ public class ROICalculatorServiceImpl {
 				population = request.getSizeOfGroup();
 			}
 			//discountRate = (iter == 1) ? 1.0f : BigDecimal.valueOf(discountRate -  (discountRate * request.getDiscountRate()/100)).setScale(2,RoundingMode.DOWN).doubleValue();			
-			discountRate = BigDecimal.valueOf(getDiscount(iter)).setScale(2,RoundingMode.DOWN).doubleValue();
+			discountRate = BigDecimal.valueOf(getDiscount(iter)).setScale(6,RoundingMode.DOWN).doubleValue();
 			investment = (iter == 1) ? (request.getInitialProgramCost() + request.getOngoingProgramCost()) : request.getOngoingProgramCost();
 			ROIHealthModelPerYear healthModelPerYear = new ROIHealthModelPerYear();
 			healthModelPerYear.setConditions(String.join(",", diseaseList));
@@ -161,13 +161,13 @@ public class ROICalculatorServiceImpl {
 			healthModelPerYear.setUtilityLossInitial(healthModelPerYear.getUtilityDiffInitialWithoutDiscount() * healthModelPerYear.getCasesBeforeProgram());
 			healthModelPerYear.setUtilityLossDiff(healthModelPerYear.getUtilityLossInitial() - healthModelPerYear.getUtilityLossAfter());
 			
-			healthModelPerYear.setHealthcareCostInitial(healthModelPerYear.getCasesBeforeProgram() * totals.get(0).getCostPerCase());
-			healthModelPerYear.setHealthcareCostAfter(healthModelPerYear.getCasesAfterProgram() * totals.get(0).getCostPerCase());
+			healthModelPerYear.setHealthcareCostInitial(healthModelPerYear.getCasesBeforeProgram() * healthModelPerYear.getCostPerCase());
+			healthModelPerYear.setHealthcareCostAfter(healthModelPerYear.getCasesAfterProgram() * healthModelPerYear.getCostPerCase());
 			healthModelPerYear.setHealthcareCostDiff(healthModelPerYear.getHealthcareCostInitial() - healthModelPerYear.getHealthcareCostAfter());
 			
-			double totalInitialCost = Double.valueOf(df.format((healthModelPerYear.getCasesBeforeProgram() * totals.get(0).getCostPerCase()) + 
+			double totalInitialCost = Double.valueOf(df.format((healthModelPerYear.getCasesBeforeProgram() * healthModelPerYear.getCostPerCase()) + 
 					(healthModelPerYear.getCasesBeforeProgram() * request.getValueOfQaly() * utilityDiff)));
-			double totalAfterCost = Double.valueOf(df.format((healthModelPerYear.getCasesAfterProgram() * totals.get(0).getCostPerCase()) + 
+			double totalAfterCost = Double.valueOf(df.format((healthModelPerYear.getCasesAfterProgram() * healthModelPerYear.getCostPerCase()) + 
 					(healthModelPerYear.getCasesAfterProgram() * request.getValueOfQaly() * utilityDiff)));
 			
 			healthModelPerYear.setTotalCostInitial(totalInitialCost);
@@ -182,7 +182,7 @@ public class ROICalculatorServiceImpl {
 			iter++;
 		}
 
-		//table 2
+		//table 1
 		
 		cumulativeROIHealthModel.setCounty(String.join(",", countyList));
 		double costPerCase = roiHealthModelPerYears.stream().mapToDouble(o -> o.getCostPerCase()).average().orElse(0);
@@ -227,8 +227,8 @@ public class ROICalculatorServiceImpl {
 		cumulativeROIHealthModel.setTotalCasesDiff(cumulativeROIHealthModel.getTotalCasesWithoutProgram() - cumulativeROIHealthModel.getTotalCasesWithProgram());
 
 		//Total costs over ‘X’ years (without QALYs)	
-		cumulativeROIHealthModel.setTotalCostWithoutQalyWithoutProgram(Double.valueOf(df.format(cumulativeROIHealthModel.getTotalCasesWithoutProgram() * totals.get(0).getCostPerCase())));
-		cumulativeROIHealthModel.setTotalCostWithoutQalyWithProgram(Double.valueOf(df.format(cumulativeROIHealthModel.getTotalCasesWithProgram() * totals.get(0).getCostPerCase())));
+		cumulativeROIHealthModel.setTotalCostWithoutQalyWithoutProgram(Double.valueOf(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> o.getHealthcareCostInitial()).sum())));
+		cumulativeROIHealthModel.setTotalCostWithoutQalyWithProgram(Double.valueOf(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> o.getHealthcareCostAfter()).sum())));
 		cumulativeROIHealthModel.setTotalCostWithoutQalyDiff(Double.valueOf(df.format(cumulativeROIHealthModel.getTotalCostWithoutQalyWithoutProgram() - cumulativeROIHealthModel.getTotalCostWithoutQalyWithProgram())));
 
 		//Total costs over ‘X’ years (with QALYs)	
