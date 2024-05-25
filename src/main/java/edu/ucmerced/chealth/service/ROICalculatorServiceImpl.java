@@ -272,7 +272,7 @@ public class ROICalculatorServiceImpl {
 				itr++;
 			}
 		}
-		return sum/(itr * 100);
+		return sum/(itr);
 	}
 	
 	private double getAverageUtilityDiff(List<HealthTotalData> totals, int age) {
