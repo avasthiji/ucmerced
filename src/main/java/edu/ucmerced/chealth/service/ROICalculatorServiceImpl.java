@@ -113,8 +113,8 @@ public class ROICalculatorServiceImpl {
 		float investment = 0.0f;
 		while(iter <= request.getNumberOfFollowUpYears()) {
 
-			final Integer newStartAge = new Integer((int) startAge);
-
+			final Integer newStartAge =  startAge < 80 ?  new Integer((int) startAge) : 80;
+			
 			if(request.getSizeOfGroup() == 0) {
 				population = totals.stream().filter(o -> o.getAge() == Integer.valueOf(newStartAge)).mapToDouble(o -> o.getPopulation()).sum();
 			}
