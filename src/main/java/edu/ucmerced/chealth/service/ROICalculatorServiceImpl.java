@@ -185,7 +185,7 @@ public class ROICalculatorServiceImpl {
 		//table 2
 		
 		cumulativeROIHealthModel.setCounty(String.join(",", countyList));
-		double costPerCase = roiHealthModelPerYears.stream().mapToDouble(o -> o.getCostPerCase()).sum();
+		double costPerCase = roiHealthModelPerYears.stream().mapToDouble(o -> o.getCostPerCase()).average().orElse(0);
 		cumulativeROIHealthModel.setCostPerCaseInitial(costPerCase);
 		cumulativeROIHealthModel.setCostPerCaseAfterProgram(costPerCase);
 		cumulativeROIHealthModel.setCostPerCaseDiff(0);
