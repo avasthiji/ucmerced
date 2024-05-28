@@ -87,7 +87,7 @@ public class ROICalculatorServiceImpl {
 			String key = i + "-" + endAge;
 			List<HealthTotalData> healthTotalDataList =  healthTotalRepository.retrieveHealthData(i, endAge, countyList, ethnicityList, diseaseList, genderList, regionList);
 
-			CumulativeROIHealthModel response = getTotalsDtos(healthTotalDataList, request, startAge, countyList, ethnicityList, diseaseList, genderList, regionList );
+			CumulativeROIHealthModel response = getTotalsDtos(healthTotalDataList, request, i, countyList, ethnicityList, diseaseList, genderList, regionList );
 			responseTotalAgemap.put(key,response);
 
 		}
@@ -107,7 +107,6 @@ public class ROICalculatorServiceImpl {
 		int iter = 1;
 		long startAge = age;
 		double population = 0;
-		double cases = 0.0;
 
 		double discountRate = 0.0f;
 		float investment = 0.0f;
