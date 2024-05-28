@@ -23,7 +23,7 @@ QuerydslPredicateExecutor<Totals> {
 
 	@Query(nativeQuery = true,
 			value = "select * from health_data where age between :ageStart AND :ageEnd AND ethnicity In (:ethnicity) "
-					+ " AND disease IN (:diseases) AND sex in (:sex) AND region In (:region)")
-	List<HealthTotalData> retrieveHealthData(int ageStart, int ageEnd, List<String> ethnicity, List<String> diseases, List<String> sex, List<String>  	region); 
+					+ " AND disease IN (:diseases) AND sex in (:sex)")
+	List<HealthTotalData> retrieveHealthData(int ageStart, int ageEnd, List<String> ethnicity, List<String> diseases, List<String> sex); 
 	
 }
