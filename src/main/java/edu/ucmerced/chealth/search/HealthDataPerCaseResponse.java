@@ -12,7 +12,7 @@ public class HealthDataPerCaseResponse {
 	private String rates; 
 	private long cases; 
 	private String healthCareCost; 
-	private String utilityLoss; 
+	private long utilityLoss; 
 	private String costOfUtility;
 	private String totalCost;
 
