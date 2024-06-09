@@ -7,6 +7,7 @@ public class HealthDataPerCaseResponse {
 	
 	private String conditions; 
 	private String county; 
+	private long population;
 	private String costPerCase; 
 	private String utilityLossPerCase;
 	private String rates; 

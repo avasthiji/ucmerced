@@ -112,6 +112,7 @@ public class CostCalculatorService {
 		healthDataPerCaseResponse.setConditions(String.join(",", conditions));
 		healthDataPerCaseResponse.setCounty(String.join(",", counties));
 		healthDataPerCaseResponse.setCostPerCase(ft.format(countiesHealthDataList.stream().mapToDouble(o->o.getCostPerCase()).average().orElse(0.0)));
+		healthDataPerCaseResponse.setPopulation(Math.round(countiesHealthDataList.stream().mapToDouble(o->o.getPopulation()).sum()));
 		healthDataPerCaseResponse.setUtilityLossPerCase(df.format(countiesHealthDataList.stream().mapToDouble(o->o.getUtilityLoss()).average().orElse(0.0)));
 		healthDataPerCaseResponse.setRates(df.format(countiesHealthDataList.stream().mapToDouble(o -> o.getPrevalenceRate()).average().orElse(0.0) * 100) + "%");
 		healthDataPerCaseResponse.setCases(Math.round(countiesHealthDataList.stream().mapToDouble(o->o.getCases()).sum()));
@@ -134,6 +135,7 @@ public class CostCalculatorService {
 		healthDataPerCaseResponse.setCounty("All of California");
 		healthDataPerCaseResponse.setCostPerCase(ft.format(regionHealthDataList.stream().mapToDouble(o->o.getCostPerCase()).average().orElse(0.0)));
 		healthDataPerCaseResponse.setUtilityLossPerCase(df.format(regionHealthDataList.stream().mapToDouble(o->o.getUtilityLoss()).average().orElse(0.0)));
+		healthDataPerCaseResponse.setPopulation(Math.round(regionHealthDataList.stream().mapToDouble(o->o.getPopulation()).sum()));
 		healthDataPerCaseResponse.setRates(df.format(regionHealthDataList.stream().mapToDouble(o -> o.getPrevalenceRate()).average().orElse(0.0) * 100) + "%");
 		healthDataPerCaseResponse.setCases(Math.round(regionHealthDataList.stream().mapToDouble(o->o.getCases()).sum()));
 		healthDataPerCaseResponse.setHealthCareCost(ft.format(regionHealthDataList.stream().mapToDouble(o->o.getTotalHCCost()).sum()));
