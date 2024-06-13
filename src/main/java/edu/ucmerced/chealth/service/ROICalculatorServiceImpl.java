@@ -92,8 +92,83 @@ public class ROICalculatorServiceImpl {
 
 		}
 		responseMap.put("Total", responseTotalAgemap);
+		responseMap.put("Summary", getSummary(responseTotalAgemap, countyList));
+
 
 		return responseMap;
+	}
+
+	private CumulativeROIHealthModel getSummary(Map<String, CumulativeROIHealthModel> responseTotalAgemap, List<String> countyList ) {
+		DecimalFormat df = new DecimalFormat("#");
+		df.setMaximumFractionDigits(2);
+
+		CumulativeROIHealthModel cumulativeROIHealthModel = new CumulativeROIHealthModel();
+		cumulativeROIHealthModel.setCounty(String.join(",", countyList));
+
+		cumulativeROIHealthModel.setCostPerCaseInitial(responseTotalAgemap.values().stream().mapToDouble(o -> o.getCostPerCaseInitial()).average().orElse(0));
+		cumulativeROIHealthModel.setCostPerCaseAfterProgram(responseTotalAgemap.values().stream().mapToDouble(o -> o.getCostPerCaseAfterProgram()).average().orElse(0));
+		cumulativeROIHealthModel.setCostPerCaseDiff(responseTotalAgemap.values().stream().mapToDouble(o -> o.getCostPerCaseDiff()).average().orElse(0));
+
+		cumulativeROIHealthModel.setUtilityLossPerCaseInitial(responseTotalAgemap.values().stream().mapToDouble(o -> o.getUtilityLossPerCaseInitial()).average().orElse(0));
+		cumulativeROIHealthModel.setUtilityLossPerCaseAfterProgram(responseTotalAgemap.values().stream().mapToDouble(o -> o.getUtilityLossPerCaseAfterProgram()).average().orElse(0));
+		cumulativeROIHealthModel.setUtilityLossPerCaseDiff(responseTotalAgemap.values().stream().mapToDouble(o -> o.getUtilityLossPerCaseDiff()).average().orElse(0));
+
+		cumulativeROIHealthModel.setRatesInitial(responseTotalAgemap.values().stream().mapToDouble(o -> o.getRatesInitial()).average().orElse(0));
+		cumulativeROIHealthModel.setRatesAfterProgram(responseTotalAgemap.values().stream().mapToDouble(o -> o.getRatesAfterProgram()).average().orElse(0));
+		cumulativeROIHealthModel.setRatesDiff(responseTotalAgemap.values().stream().mapToDouble(o -> o.getRatesDiff()).average().orElse(0));
+
+		cumulativeROIHealthModel.setPopulationInitial(responseTotalAgemap.values().stream().mapToLong(o -> o.getPopulationInitial()).sum());
+		cumulativeROIHealthModel.setPopulationAfterProgram(responseTotalAgemap.values().stream().mapToLong(o -> o.getPopulationAfterProgram()).sum());
+		cumulativeROIHealthModel.setPopulationDiff(responseTotalAgemap.values().stream().mapToLong(o -> o.getPopulationDiff()).sum());
+
+		cumulativeROIHealthModel.setCasesInitial(responseTotalAgemap.values().stream().mapToLong(o -> o.getCasesInitial()).sum());
+		cumulativeROIHealthModel.setCasesAfterProgram(responseTotalAgemap.values().stream().mapToLong(o -> o.getCasesAfterProgram()).sum());
+		cumulativeROIHealthModel.setCasesDiff(responseTotalAgemap.values().stream().mapToLong(o -> o.getCasesDiff()).sum());
+
+		cumulativeROIHealthModel.setUtilityLossInitial(responseTotalAgemap.values().stream().mapToDouble(o -> o.getUtilityLossInitial()).sum());
+		cumulativeROIHealthModel.setUtilityLossAfterProgram(responseTotalAgemap.values().stream().mapToDouble(o -> o.getUtilityLossAfterProgram()).sum());
+		cumulativeROIHealthModel.setUtilityLossDiff(responseTotalAgemap.values().stream().mapToDouble(o -> o.getUtilityLossDiff()).sum());
+
+		cumulativeROIHealthModel.setHealthCareCostInitial(Math.round(responseTotalAgemap.values().stream().mapToDouble(o -> o.getHealthCareCostInitial()).sum()));
+		cumulativeROIHealthModel.setHealthCareCostAfterProgram(Math.round(responseTotalAgemap.values().stream().mapToDouble(o -> o.getHealthCareCostAfterProgram()).sum()));
+		cumulativeROIHealthModel.setHealthCareCostDiff(responseTotalAgemap.values().stream().mapToLong(o -> o.getHealthCareCostDiff()).sum());
+
+		cumulativeROIHealthModel.setTotalCostInitial(Math.round(responseTotalAgemap.values().stream().mapToDouble(o -> o.getTotalCostInitial()).sum()));
+		cumulativeROIHealthModel.setTotalCostAfterProgram(Math.round(responseTotalAgemap.values().stream().mapToDouble(o -> o.getTotalCostAfterProgram()).sum()));
+		cumulativeROIHealthModel.setTotalCostDiff(responseTotalAgemap.values().stream().mapToLong(o -> o.getTotalCostDiff()).sum());
+
+		//table 2
+
+		cumulativeROIHealthModel.setTotalCasesWithProgram(responseTotalAgemap.values().stream().mapToLong(o -> o.getTotalCasesWithProgram()).sum());
+		cumulativeROIHealthModel.setTotalCasesWithoutProgram(responseTotalAgemap.values().stream().mapToLong(o -> o.getTotalCasesWithoutProgram()).sum());
+		cumulativeROIHealthModel.setTotalCasesDiff(responseTotalAgemap.values().stream().mapToLong(o -> o.getTotalCasesDiff()).sum());
+
+		cumulativeROIHealthModel.setTotalCostWithoutQalyWithProgram(responseTotalAgemap.values().stream().mapToLong(o -> o.getTotalCostWithoutQalyWithProgram()).sum());
+		cumulativeROIHealthModel.setTotalCostWithoutQalyWithoutProgram(responseTotalAgemap.values().stream().mapToLong(o -> o.getTotalCostWithoutQalyWithoutProgram()).sum());
+		cumulativeROIHealthModel.setTotalCostWithoutQalyDiff(responseTotalAgemap.values().stream().mapToLong(o -> o.getTotalCostWithoutQalyDiff()).sum());
+
+		cumulativeROIHealthModel.setTotalCostWithQalyWithProgram(responseTotalAgemap.values().stream().mapToLong(o ->o.getTotalCostWithQalyWithProgram()).sum());
+		cumulativeROIHealthModel.setTotalCostWithQalyWithoutProgram(responseTotalAgemap.values().stream().mapToLong(o ->o.getTotalCostWithQalyWithoutProgram()).sum());
+		cumulativeROIHealthModel.setTotalCostWithQalyDiff(responseTotalAgemap.values().stream().mapToLong(o ->o.getTotalCostWithQalyDiff()).sum());
+
+		cumulativeROIHealthModel.setTotalQalyWithProgram(responseTotalAgemap.values().stream().mapToDouble(o ->o.getTotalQalyWithProgram()).sum());
+		cumulativeROIHealthModel.setTotalQaLYWithoutProgram(responseTotalAgemap.values().stream().mapToDouble(o ->o.getTotalQaLYWithoutProgram()).sum());
+		cumulativeROIHealthModel.setTotalQalyDiff(responseTotalAgemap.values().stream().mapToDouble(o ->o.getTotalQalyDiff()).sum());
+
+		cumulativeROIHealthModel.setInvestmentWithProgram(responseTotalAgemap.values().stream().mapToDouble(o ->o.getInvestmentWithProgram()).sum());
+		cumulativeROIHealthModel.setInvestmentWithoutProgram(responseTotalAgemap.values().stream().mapToDouble(o ->o.getInvestmentWithoutProgram()).sum());
+		cumulativeROIHealthModel.setInvestmentDiff(responseTotalAgemap.values().stream().mapToDouble(o ->o.getInvestmentDiff()).sum());
+
+		//Return on investment (without QALYs)		
+		cumulativeROIHealthModel.setROIWithoutQaly(Double.parseDouble(df.format((cumulativeROIHealthModel.getTotalCostWithoutQalyDiff() - 
+				cumulativeROIHealthModel.getInvestmentDiff())/cumulativeROIHealthModel.getInvestmentDiff())));
+		//Return on investment (without QALYs)	
+		cumulativeROIHealthModel.setROIWithQaly(Double.parseDouble(df.format((cumulativeROIHealthModel.getTotalCostWithQalyDiff() - cumulativeROIHealthModel.getInvestmentDiff())/cumulativeROIHealthModel.getInvestmentDiff())));
+		//Return on investment (without QALYs)	
+
+		
+		return cumulativeROIHealthModel;
+
 	}
 
 	@SuppressWarnings("removal")
@@ -113,7 +188,7 @@ public class ROICalculatorServiceImpl {
 		while(iter <= request.getNumberOfFollowUpYears()) {
 
 			final Integer newStartAge =  startAge < 80 ?  new Integer((int) startAge) : 80;
-			
+
 			if(request.getSizeOfGroup() == 0) {
 				population = totals.stream().filter(o -> o.getAge() == Integer.valueOf(newStartAge)).mapToDouble(o -> o.getPopulation()).sum();
 			}
@@ -138,37 +213,37 @@ public class ROICalculatorServiceImpl {
 			double anticipatedPrevRate = prevRate;
 			if(iter > request.getAnticipatedTimeForEffectivenessOfProgram()) {
 				anticipatedPrevRate = prevRate - (prevRate * request.getAnticipatedEffectivenessOfProgram())/100;
-				}
+			}
 			healthModelPerYear.setPrevRateAfter(anticipatedPrevRate);
 			healthModelPerYear.setPrevRateInitial(prevRate);
-			
+
 			healthModelPerYear.setCostPerCase(getCostPerCase(totals, newStartAge)); 
-			
+
 			healthModelPerYear.setPopulation(population);
 			healthModelPerYear.setCasesBeforeProgram(population * prevRate);
 			healthModelPerYear.setCasesAfterProgram(population * anticipatedPrevRate);
-			
+
 			double utilityDiff = getAverageUtilityDiff(totals, newStartAge);
 			healthModelPerYear.setUtilityDiffAfterWithDiscount(utilityDiff * discountRate);
 			healthModelPerYear.setUtilityDiffInitialWithoutDiscount(utilityDiff);
-			
+
 			healthModelPerYear.setUtilityLossDiscountedInitial(healthModelPerYear.getUtilityDiffAfterWithDiscount() * healthModelPerYear.getCasesBeforeProgram());
 			healthModelPerYear.setUtilityLossDiscountedAfter(healthModelPerYear.getUtilityDiffAfterWithDiscount() * healthModelPerYear.getCasesAfterProgram());
 			healthModelPerYear.setUtilityLossDiscountedDiff(healthModelPerYear.getUtilityLossDiscountedInitial() - healthModelPerYear.getUtilityLossDiscountedAfter());
-			
+
 			healthModelPerYear.setUtilityLossAfter(healthModelPerYear.getUtilityDiffInitialWithoutDiscount() * healthModelPerYear.getCasesAfterProgram());
 			healthModelPerYear.setUtilityLossInitial(healthModelPerYear.getUtilityDiffInitialWithoutDiscount() * healthModelPerYear.getCasesBeforeProgram());
 			healthModelPerYear.setUtilityLossDiff(healthModelPerYear.getUtilityLossInitial() - healthModelPerYear.getUtilityLossAfter());
-			
+
 			healthModelPerYear.setHealthcareCostInitial(healthModelPerYear.getCasesBeforeProgram() * healthModelPerYear.getCostPerCase());
 			healthModelPerYear.setHealthcareCostAfter(healthModelPerYear.getCasesAfterProgram() * healthModelPerYear.getCostPerCase());
 			healthModelPerYear.setHealthcareCostDiff(healthModelPerYear.getHealthcareCostInitial() - healthModelPerYear.getHealthcareCostAfter());
-			
-			double totalInitialCost = Double.valueOf(df.format((healthModelPerYear.getCasesBeforeProgram() * healthModelPerYear.getCostPerCase()) + 
-					(healthModelPerYear.getCasesBeforeProgram() * request.getValueOfQaly() * utilityDiff)));
-			double totalAfterCost = Double.valueOf(df.format((healthModelPerYear.getCasesAfterProgram() * healthModelPerYear.getCostPerCase()) + 
-					(healthModelPerYear.getCasesAfterProgram() * request.getValueOfQaly() * utilityDiff)));
-			
+
+			double totalInitialCost = Math.round((healthModelPerYear.getCasesBeforeProgram() * healthModelPerYear.getCostPerCase()) + 
+					(healthModelPerYear.getCasesBeforeProgram() * request.getValueOfQaly() * utilityDiff));
+			double totalAfterCost = Math.round((healthModelPerYear.getCasesAfterProgram() * healthModelPerYear.getCostPerCase()) + 
+					(healthModelPerYear.getCasesAfterProgram() * request.getValueOfQaly() * utilityDiff));
+
 			healthModelPerYear.setTotalCostInitial(totalInitialCost);
 			healthModelPerYear.setTotalCostAfter(totalAfterCost);
 			healthModelPerYear.setTotalCostDiff(totalInitialCost - totalAfterCost);
@@ -182,18 +257,18 @@ public class ROICalculatorServiceImpl {
 		}
 
 		//table 1
-		
+
 		cumulativeROIHealthModel.setCounty(String.join(",", countyList));
-		double costPerCase = roiHealthModelPerYears.stream().mapToDouble(o -> o.getCostPerCase()).average().orElse(0);
+		double costPerCase = Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> o.getCostPerCase()).average().orElse(0));
 		cumulativeROIHealthModel.setCostPerCaseInitial(costPerCase);
 		cumulativeROIHealthModel.setCostPerCaseAfterProgram(costPerCase);
 		cumulativeROIHealthModel.setCostPerCaseDiff(0);
-		
+
 		double utilityLoss = BigDecimal.valueOf(roiHealthModelPerYears.stream().mapToDouble(o -> o.getUtilityDiffInitialWithoutDiscount()).average().orElse(0)).setScale(2, RoundingMode.DOWN).doubleValue();
 		cumulativeROIHealthModel.setUtilityLossPerCaseInitial(utilityLoss);
 		cumulativeROIHealthModel.setUtilityLossPerCaseAfterProgram(utilityLoss);
 		cumulativeROIHealthModel.setUtilityLossPerCaseDiff(0);
-		
+
 		cumulativeROIHealthModel.setRatesInitial(BigDecimal.valueOf(roiHealthModelPerYears.stream().mapToDouble(o -> o.getPrevRateInitial()).average().orElse(0)).setScale(2, RoundingMode.DOWN).doubleValue());
 		cumulativeROIHealthModel.setRatesAfterProgram(BigDecimal.valueOf(roiHealthModelPerYears.stream().mapToDouble(o -> o.getPrevRateAfter()).average().orElse(0)).setScale(2, RoundingMode.DOWN).doubleValue());
 		cumulativeROIHealthModel.setRatesDiff(BigDecimal.valueOf(cumulativeROIHealthModel.getRatesInitial() - cumulativeROIHealthModel.getRatesAfterProgram()).setScale(2, RoundingMode.DOWN).doubleValue());
@@ -201,40 +276,40 @@ public class ROICalculatorServiceImpl {
 		cumulativeROIHealthModel.setPopulationInitial((long) roiHealthModelPerYears.stream().mapToDouble(o -> o.getPopulation()).sum());
 		cumulativeROIHealthModel.setPopulationAfterProgram((long) roiHealthModelPerYears.stream().mapToDouble(o -> o.getPopulation()).sum());
 		cumulativeROIHealthModel.setPopulationDiff(0);
-		
+
 		cumulativeROIHealthModel.setCasesInitial(Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> o.getCasesBeforeProgram()).sum()));
 		cumulativeROIHealthModel.setCasesAfterProgram(Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> o.getCasesAfterProgram()).sum()));
 		cumulativeROIHealthModel.setCasesDiff(cumulativeROIHealthModel.getCasesInitial() - cumulativeROIHealthModel.getCasesAfterProgram());
-		
+
 		cumulativeROIHealthModel.setUtilityLossInitial(Double.valueOf(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> o.getUtilityLossInitial()).sum())));
 		cumulativeROIHealthModel.setUtilityLossAfterProgram(Double.valueOf(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> o.getUtilityLossAfter()).sum())));
 		cumulativeROIHealthModel.setUtilityLossDiff(Double.valueOf(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> o.getUtilityLossDiff()).sum())));
-		
-		cumulativeROIHealthModel.setHealthCareCostInitial(Double.valueOf(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> o.getHealthcareCostInitial()).sum())));
-		cumulativeROIHealthModel.setHealthCareCostAfterProgram(Double.valueOf(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> o.getHealthcareCostAfter()).sum())));
-		cumulativeROIHealthModel.setHealthCareCostDiff(Double.valueOf(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> o.getHealthcareCostDiff()).sum())));
-		
-		cumulativeROIHealthModel.setTotalCostInitial(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> o.getTotalCostInitial()).sum()));
-		cumulativeROIHealthModel.setTotalCostAfterProgram(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> o.getTotalCostAfter()).sum()));
-		cumulativeROIHealthModel.setTotalCostDiff(Double.valueOf(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> o.getTotalCostDiff()).sum())));
-		
-		
-		
+
+		cumulativeROIHealthModel.setHealthCareCostInitial(Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> o.getHealthcareCostInitial()).sum()));
+		cumulativeROIHealthModel.setHealthCareCostAfterProgram(Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> o.getHealthcareCostAfter()).sum()));
+		cumulativeROIHealthModel.setHealthCareCostDiff(Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> o.getHealthcareCostDiff()).sum()));
+
+		cumulativeROIHealthModel.setTotalCostInitial(Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> o.getTotalCostInitial()).sum()));
+		cumulativeROIHealthModel.setTotalCostAfterProgram(Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> o.getTotalCostAfter()).sum()));
+		cumulativeROIHealthModel.setTotalCostDiff(Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> o.getTotalCostDiff()).sum()));
+
+
+
 		//Cases in ‘X’ years 	
 		cumulativeROIHealthModel.setTotalCasesWithoutProgram(Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> Double.valueOf(o.getCasesBeforeProgram())).sum()));
 		cumulativeROIHealthModel.setTotalCasesWithProgram(Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> Double.valueOf(o.getCasesAfterProgram())).sum()));
 		cumulativeROIHealthModel.setTotalCasesDiff(cumulativeROIHealthModel.getTotalCasesWithoutProgram() - cumulativeROIHealthModel.getTotalCasesWithProgram());
 
 		//Total costs over ‘X’ years (without QALYs)	
-		cumulativeROIHealthModel.setTotalCostWithoutQalyWithoutProgram(Double.valueOf(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> o.getHealthcareCostInitial()).sum())));
-		cumulativeROIHealthModel.setTotalCostWithoutQalyWithProgram(Double.valueOf(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> o.getHealthcareCostAfter()).sum())));
-		cumulativeROIHealthModel.setTotalCostWithoutQalyDiff(Double.valueOf(df.format(cumulativeROIHealthModel.getTotalCostWithoutQalyWithoutProgram() - cumulativeROIHealthModel.getTotalCostWithoutQalyWithProgram())));
+		cumulativeROIHealthModel.setTotalCostWithoutQalyWithoutProgram(Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> o.getHealthcareCostInitial()).sum()));
+		cumulativeROIHealthModel.setTotalCostWithoutQalyWithProgram(Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> o.getHealthcareCostAfter()).sum()));
+		cumulativeROIHealthModel.setTotalCostWithoutQalyDiff(Math.round(cumulativeROIHealthModel.getTotalCostWithoutQalyWithoutProgram() - cumulativeROIHealthModel.getTotalCostWithoutQalyWithProgram()));
 
 		//Total costs over ‘X’ years (with QALYs)	
-		cumulativeROIHealthModel.setTotalCostWithQalyWithoutProgram(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> Double.valueOf(o.getTotalCostInitial())).sum()));
-		cumulativeROIHealthModel.setTotalCostWithQalyWithProgram(df.format(roiHealthModelPerYears.stream().mapToDouble(o -> Double.valueOf(o.getTotalCostAfter())).sum()));
-		cumulativeROIHealthModel.setTotalCostWithQalyDiff(Double.valueOf(df.format(Double.valueOf(cumulativeROIHealthModel.getTotalCostWithQalyWithoutProgram()) -  Double.valueOf(cumulativeROIHealthModel.getTotalCostWithQalyWithProgram()))));
-		
+		cumulativeROIHealthModel.setTotalCostWithQalyWithoutProgram(Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> Double.valueOf(o.getTotalCostInitial())).sum()));
+		cumulativeROIHealthModel.setTotalCostWithQalyWithProgram(Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> Double.valueOf(o.getTotalCostAfter())).sum()));
+		cumulativeROIHealthModel.setTotalCostWithQalyDiff(Math.round(Double.valueOf(cumulativeROIHealthModel.getTotalCostWithQalyWithoutProgram()) -  Double.valueOf(cumulativeROIHealthModel.getTotalCostWithQalyWithProgram())));
+
 		//Total QALYs over ‘X’ years
 		cumulativeROIHealthModel.setTotalQalyWithProgram(Double.valueOf(df.format(roiHealthModelPerYears.stream().mapToDouble( o -> o.getUtilityLossAfter()).sum())));
 		cumulativeROIHealthModel.setTotalQaLYWithoutProgram(Double.valueOf(df.format(roiHealthModelPerYears.stream().mapToDouble( o -> o.getUtilityLossInitial()).sum())));
@@ -251,7 +326,7 @@ public class ROICalculatorServiceImpl {
 		//Return on investment (without QALYs)	
 		cumulativeROIHealthModel.setROIWithQaly(Double.parseDouble(df.format((cumulativeROIHealthModel.getTotalCostWithQalyDiff() - cumulativeROIHealthModel.getInvestmentDiff())/cumulativeROIHealthModel.getInvestmentDiff())));
 		//Return on investment (without QALYs)	
-		
+
 		double discountedInvestment = roiHealthModelPerYears.stream().mapToDouble(o -> Double.valueOf(o.getDiscountedInvestment())).sum();
 		double roiDiscounted = BigDecimal.valueOf(((roiHealthModelPerYears.stream().mapToDouble(o -> Double.valueOf(o.getTotalCostDiffDiscounted())).sum() - discountedInvestment)/discountedInvestment)).setScale(2, RoundingMode.DOWN).doubleValue();
 		cumulativeROIHealthModel.setROIDiscounted(roiDiscounted);
@@ -261,7 +336,7 @@ public class ROICalculatorServiceImpl {
 
 		return cumulativeROIHealthModel; 
 	}
-	
+
 	private double getAveragePrevAge(List<HealthTotalData> totals, int age) {
 		double sum = 0;
 		int itr = 0;
@@ -273,7 +348,7 @@ public class ROICalculatorServiceImpl {
 		}
 		return sum/(itr);
 	}
-	
+
 	private double getAverageUtilityDiff(List<HealthTotalData> totals, int age) {
 		double sum = 0;
 		int itr = 0;
@@ -285,7 +360,7 @@ public class ROICalculatorServiceImpl {
 		}
 		return sum/(itr);
 	}
-	
+
 	private double getDiscount(int age) {
 		return 1/Math.pow(1.03,age-1);
 	}

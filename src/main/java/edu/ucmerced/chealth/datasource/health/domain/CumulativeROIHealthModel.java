@@ -3,6 +3,9 @@ package edu.ucmerced.chealth.datasource.health.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Data;
 
 @Data
@@ -35,26 +38,26 @@ public class CumulativeROIHealthModel {
 	private double utilityLossAfterProgram;
 	private double utilityLossDiff;
 	
-	private double healthCareCostInitial;
-	private double healthCareCostAfterProgram;
-	private double healthCareCostDiff;
+	private long healthCareCostInitial;
+	private long healthCareCostAfterProgram;
+	private long healthCareCostDiff;
 	
-	private String totalCostInitial;
-	private String totalCostAfterProgram;
-	private double totalCostDiff;
+	private long totalCostInitial;
+	private long totalCostAfterProgram;
+	private long totalCostDiff;
 	
 	//Table 2
 	private long totalCasesWithProgram; 
 	private long totalCasesWithoutProgram;
 	private long totalCasesDiff;
 	
-	private double totalCostWithoutQalyWithProgram;
-	private double totalCostWithoutQalyWithoutProgram;
-	private double totalCostWithoutQalyDiff;
+	private long totalCostWithoutQalyWithProgram;
+	private long totalCostWithoutQalyWithoutProgram;
+	private long totalCostWithoutQalyDiff;
 	
-	private String totalCostWithQalyWithProgram;
-	private String totalCostWithQalyWithoutProgram;
-	private double totalCostWithQalyDiff;
+	private long totalCostWithQalyWithProgram;
+	private long totalCostWithQalyWithoutProgram;
+	private long totalCostWithQalyDiff;
 	
 	private double totalQalyWithProgram;
 	private double totalQaLYWithoutProgram;
