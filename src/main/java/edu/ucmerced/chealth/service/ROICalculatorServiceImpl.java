@@ -357,8 +357,8 @@ public class ROICalculatorServiceImpl {
 		float investmentTime = request.getNumberOfFollowUpYears() >= request.getProgramDuration() ? request.getProgramDuration() : request.getNumberOfFollowUpYears();
 		int i = 0;
 		double investment = 0;
-		while(i <= roiHealthModelPerYears.size()) {
-			if( i<= investmentTime ) {
+		while(i < roiHealthModelPerYears.size()) {
+			if( i< investmentTime ) {
 				investment = investment + roiHealthModelPerYears.get(i).getDiscountedInvestment();
 			}
 			i++;
