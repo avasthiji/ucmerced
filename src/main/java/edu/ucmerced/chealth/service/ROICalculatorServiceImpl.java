@@ -171,6 +171,7 @@ public class ROICalculatorServiceImpl {
 		cumulativeROIHealthModel.setROIWithQaly(Double.parseDouble(df.format((cumulativeROIHealthModel.getTotalCostWithQalyDiff() - cumulativeROIHealthModel.getInvestmentDiff())/cumulativeROIHealthModel.getInvestmentDiff())));
 		//Return on investment (without QALYs)	
 
+		cumulativeROIHealthModel.setROIDiscounted(BigDecimal.valueOf(responseTotalAgemap.values().stream().mapToDouble(o -> o.getROIDiscounted()).average().orElse(0)).setScale(3, RoundingMode.DOWN).doubleValue());
 
 		return cumulativeROIHealthModel;
 
