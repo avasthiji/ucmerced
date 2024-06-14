@@ -51,7 +51,7 @@ public class ROICalculatorRequest {
 	private long ongoingProgramCost;
 	
 	@JsonProperty(value = "operationalPeriodOfProgram")
-	private int operationalPeriodOfProgram;
+	private int programDuration;
 	
 	@JsonProperty(value = "discountRate")
 	private  float discountRate;
