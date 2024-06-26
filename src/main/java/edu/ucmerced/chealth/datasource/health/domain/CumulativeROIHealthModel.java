@@ -38,9 +38,9 @@ public class CumulativeROIHealthModel {
 	private double utilityLossAfterProgram;
 	private double utilityLossDiff;
 	
-	private double utilityCostInitial;
-	private double utilityCostAfterProgram;
-	private double utilityCostDiff;
+	private long utilityCostInitial;
+	private long utilityCostAfterProgram;
+	private long utilityCostDiff;
 	
 	private long healthCareCostInitial;
 	private long healthCareCostAfterProgram;
