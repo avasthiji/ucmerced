@@ -339,8 +339,8 @@ public class ROICalculatorServiceImpl {
 				.collect(Collectors.toList());
 		int investmentDuration = 	ageList.get(ageList.size() - 1 ) - ageList.get(0) + 1;
 		cumulativeROIHealthModel.setInvestmentWithoutProgram(0.0);
-		cumulativeROIHealthModel.setInvestmentWithProgram(finalInvestmest  / investmentDuration);
-		cumulativeROIHealthModel.setInvestmentDiff(finalInvestmest / investmentDuration);
+		cumulativeROIHealthModel.setInvestmentWithProgram(Math.round(finalInvestmest  / investmentDuration));
+		cumulativeROIHealthModel.setInvestmentDiff(Math.round(finalInvestmest  / investmentDuration));
 
 		//Return on investment (without QALYs)		
 		cumulativeROIHealthModel.setROIWithoutQaly(Double.parseDouble(df.format((cumulativeROIHealthModel.getTotalCostWithoutQalyDiff() - 
