@@ -14,9 +14,9 @@ public class CumulativeROIHealthModel {
 	//Table 1
 	private String county;
 	
-	private double costPerCaseInitial;
-	private double costPerCaseAfterProgram;
-	private double costPerCaseDiff;
+	private long costPerCaseInitial;
+	private long costPerCaseAfterProgram;
+	private long costPerCaseDiff;
 	
 	private double utilityLossPerCaseInitial;
 	private double utilityLossPerCaseAfterProgram;

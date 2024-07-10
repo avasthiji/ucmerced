@@ -189,7 +189,7 @@ public class ROICalculatorServiceImpl {
 		List<ROIHealthModelPerYear> roiHealthModelPerYears = new ArrayList<ROIHealthModelPerYear>();
 		CumulativeROIHealthModel cumulativeROIHealthModel = new CumulativeROIHealthModel();
 		DecimalFormat df = new DecimalFormat("#");
-		df.setMaximumFractionDigits(2);
+		df.setMaximumFractionDigits(3);
 		int iter = 1;
 		long startAge = age;
 		double population = 0;
@@ -275,7 +275,7 @@ public class ROICalculatorServiceImpl {
 		//table 1
 
 		cumulativeROIHealthModel.setCounty(String.join(",", countyList));
-		double costPerCase = Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> o.getCostPerCase()).average().orElse(0));
+		long costPerCase = Math.round(roiHealthModelPerYears.stream().mapToDouble(o -> o.getCostPerCase()).average().orElse(0));
 		cumulativeROIHealthModel.setCostPerCaseInitial(costPerCase);
 		cumulativeROIHealthModel.setCostPerCaseAfterProgram(costPerCase);
 		cumulativeROIHealthModel.setCostPerCaseDiff(0);
@@ -354,7 +354,7 @@ public class ROICalculatorServiceImpl {
 		//Return on investment (without QALYs)	
 
 		double discountedInvestment = getDiscountedInvestment(request, roiHealthModelPerYears, investmentDuration);
-		double roiDiscounted = BigDecimal.valueOf(((roiHealthModelPerYears.stream().mapToDouble(o -> Double.valueOf(o.getTotalCostDiffDiscounted())).sum() - discountedInvestment)/discountedInvestment)).setScale(2, RoundingMode.DOWN).doubleValue();
+		double roiDiscounted = BigDecimal.valueOf(((roiHealthModelPerYears.stream().mapToDouble(o -> Double.valueOf(o.getTotalCostDiffDiscounted())).sum() - discountedInvestment)/discountedInvestment)).setScale(3, RoundingMode.DOWN).doubleValue();
 		cumulativeROIHealthModel.setROIDiscounted(roiDiscounted);
 
 		//cumulativeROIHealthModel.setAgeRange(roiHealthModelPerYears);
